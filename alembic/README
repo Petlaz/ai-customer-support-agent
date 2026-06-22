@@ -1,1 +1,37 @@
-Generic single-database configuration.
+# Alembic Migrations
+
+This folder contains database migration scripts for the AI Customer Support Automation Agent.
+
+## Setup
+
+Alembic is pre-configured to read `DATABASE_URL` from `.env` via `config/settings.py`.
+No manual edits to `alembic.ini` are needed for local development.
+
+## Common Commands
+
+| Command | Purpose |
+|---------|---------|
+| `alembic upgrade head` | Apply all pending migrations (run this after pulling new code) |
+| `alembic revision --autogenerate -m "description"` | Generate a new migration from model changes |
+| `alembic downgrade -1` | Roll back the last migration |
+| `alembic downgrade base` | Roll back all migrations (resets DB schema) |
+| `alembic history` | Show migration history |
+| `alembic current` | Show current applied revision |
+
+## Workflow for Model Changes
+
+1. Edit `database/models.py`
+2. Run `alembic revision --autogenerate -m "short description of change"`
+3. Review the generated file in `alembic/versions/`
+4. Run `alembic upgrade head` to apply
+
+## Database
+
+- **Local development:** SQLite at `data/support_agent.db`
+- **Production:** PostgreSQL on Amazon RDS — set `DATABASE_URL` in the production environment
+
+## Migrations
+
+| Revision | Description |
+|----------|-------------|
+| `74ea40ee529d` | Initial schema — customers, tickets, conversations, responses, routing_decisions, escalations, agent_logs, evaluation_results |
