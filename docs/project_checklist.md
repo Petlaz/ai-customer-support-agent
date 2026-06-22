@@ -581,7 +581,7 @@ Each tool must include:
 
 ### Docs Folder
 
-- [x] `docs/project_problem.md` — Problem statement
+- [x] `docs/project_problem_definition.md` — Full PRS (problem, objectives, architecture, data models)
 - [x] `docs/architecture.md` — Architecture diagram placeholder
 - [x] `docs/memory_architecture.md` — Memory architecture placeholder
 - [x] `docs/rag_architecture.md` — RAG pipeline placeholder

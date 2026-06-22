@@ -415,7 +415,6 @@ ai-customer-support-agent/
 ├── docs/
 │   ├── project_problem_definition.md
 │   ├── project_checklist.md
-│   ├── project_problem.md
 │   ├── architecture.md
 │   ├── memory_architecture.md
 │   ├── rag_architecture.md
