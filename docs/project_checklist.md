@@ -93,30 +93,67 @@ Use this checklist to track implementation progress across all project phases.
 
 ### Short-Term Memory
 
-- [ ] Implement using **LangGraph State**
-- [ ] Store conversation history
-- [ ] Store current workflow state
-- [ ] Store previous agent actions
-- [ ] Store tool outputs
+- [x] Implement using **LangGraph State**
+- [x] Store conversation history
+- [x] Store current workflow state
+- [x] Store previous agent actions
+- [x] Store tool outputs
 
 ### Long-Term Memory
 
-- [ ] Implement using **PostgreSQL**
-- [ ] Store customer profiles
-- [ ] Store historical tickets
-- [ ] Store historical resolutions
-- [ ] Store escalation history
-- [ ] Store customer preferences
+- [x] Implement using **PostgreSQL**
+- [x] Store customer profiles
+- [x] Store historical tickets
+- [x] Store historical resolutions
+- [x] Store escalation history
+- [x] Store customer preferences
 
 ### Semantic Memory
 
-- [ ] Implement using **Chroma Vector Database**
-- [ ] Store ticket embeddings
-- [ ] Store resolution embeddings
-- [ ] Store conversation embeddings
-- [ ] Retrieve similar tickets
-- [ ] Retrieve similar resolutions
-- [ ] Retrieve similar customer issues
+- [x] Implement using **Chroma Vector Database**
+- [x] Store ticket embeddings
+- [x] Store resolution embeddings
+- [x] Store conversation embeddings
+- [x] Retrieve similar tickets
+- [x] Retrieve similar resolutions
+- [x] Retrieve similar customer issues
+
+---
+
+## Phase 3b — Core Data Models
+
+> **Goal:** Define every data structure the system uses before writing any agent, RAG, or memory code. The Pydantic schemas define what flows through the API. The SQLAlchemy models define what gets persisted. The AgentState defines what flows through the LangGraph graph. Everything else is built on top of these.
+>
+> **Why here:** The Memory Layer (Phase 6), RAG Layer (Phase 5), and Agent Graph (Phase 7) all depend on these models existing first. Phase 11 adds CRUD operations on top of the models created here.
+>
+> **Test:** After this phase, run `python -c "from database.models import Base; from database.db import engine; Base.metadata.create_all(engine); print('Tables created')"` and verify all tables are created with no errors.
+
+### Pydantic Schemas (`api/schemas/`)
+
+- [ ] `api/schemas/ticket_schema.py` — `TicketInput` model (ticket_id, customer_id, subject, message, channel, priority, created_at)
+- [ ] `api/schemas/response_schema.py` — `TicketResponse` model (ticket_id, classification, confidence_score, response, routing_decision, escalated, summary, tokens_used, cost_usd)
+- [ ] `api/schemas/routing_schema.py` — `RoutingDecision` model
+- [ ] `api/schemas/escalation_schema.py` — `EscalationPayload` model
+- [ ] `api/schemas/memory_schema.py` — `CustomerHistory`, `SimilarCase` models
+- [ ] `api/schemas/evaluation_schema.py` — `EvalCase`, `EvalResult` models
+
+### LangGraph State (`agents/state.py`)
+
+- [ ] `agents/state.py` — `AgentState` TypedDict with all fields: ticket, customer_history, similar_cases, classification, confidence_score, retrieved_policies, draft_response, routing_decision, escalation_required, escalation_reason, summary, audit_log, langfuse_trace_id
+
+### SQLAlchemy Models (`database/`)
+
+- [ ] `database/models.py` — ORM models: `Customer`, `Ticket`, `Conversation`, `Response`, `RoutingDecision`, `Escalation`, `AgentLog`, `EvaluationResult`
+- [ ] `database/db.py` — SQLAlchemy engine, `Base`, `create_all()`
+- [ ] `database/session.py` — `SessionLocal` factory, `get_db()` dependency
+
+### Alembic Migrations
+
+- [ ] Run `alembic init alembic` to initialise migrations folder
+- [ ] Configure `alembic.ini` and `alembic/env.py` to point at `DATABASE_URL` from settings
+- [ ] Generate first migration: `alembic revision --autogenerate -m "initial schema"`
+- [ ] Apply migration: `alembic upgrade head`
+- [ ] Verify all tables created in `data/support_agent.db`
 
 ---
 
@@ -317,35 +354,42 @@ Each tool must include:
 
 ---
 
-## Phase 11 — Database Layer
+## Phase 11 — Database Layer (CRUD + Production)
 
-> **Goal:** Implement SQLAlchemy models and CRUD operations for persisting tickets, customers, responses, routing decisions, and escalations. Use SQLite locally (zero config) and PostgreSQL in production (Amazon RDS).
+> **Goal:** Add CRUD operations on top of the models created in Phase 3b. Wire the database layer into the FastAPI routes and memory layer. Switch from SQLite to PostgreSQL for production.
+>
+> **Note:** SQLAlchemy models, engine, and session factory are implemented in **Phase 3b**. This phase adds CRUD operations and production database config.
 
 ### Local Development
 
-- [ ] SQLite for local development
+- [ ] SQLite — configured in Phase 3b ✓
 
 ### Production
 
 - [ ] PostgreSQL on Amazon RDS
+- [ ] Update `DATABASE_URL` in production `.env`
+- [ ] Verify Alembic migrations run against PostgreSQL
 
-### Database Files
+### CRUD Operations
 
-- [x] `database/models.py` — SQLAlchemy models
-- [x] `database/crud.py` — CRUD operations
-- [x] `database/db.py` — Database connection
-- [x] `database/session.py` — Session management
+- [x] `database/crud.py` — CRUD operations file created
+- [ ] `create_ticket()` — insert new ticket
+- [ ] `get_ticket()` — fetch by ticket_id
+- [ ] `get_customer_history()` — fetch all tickets for a customer
+- [ ] `create_escalation()` — insert escalation record
+- [ ] `create_agent_log()` — insert audit log entry
+- [ ] `create_evaluation_result()` — insert eval result
 
-### Tables to Store
+### Tables (implemented in Phase 3b)
 
-- [ ] Customers
-- [ ] Tickets
-- [ ] Conversations
-- [ ] Responses
-- [ ] Routing decisions
-- [ ] Escalations
-- [ ] Agent logs
-- [ ] Evaluation results
+- [ ] Customers ✓ (model in Phase 3b)
+- [ ] Tickets ✓ (model in Phase 3b)
+- [ ] Conversations ✓ (model in Phase 3b)
+- [ ] Responses ✓ (model in Phase 3b)
+- [ ] Routing decisions ✓ (model in Phase 3b)
+- [ ] Escalations ✓ (model in Phase 3b)
+- [ ] Agent logs ✓ (model in Phase 3b)
+- [ ] Evaluation results ✓ (model in Phase 3b)
 
 ---
 
