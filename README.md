@@ -415,7 +415,7 @@ ai-customer-support-agent/
 ├── docs/
 │   ├── project_problem_definition.md
 │   ├── project_checklist.md
-│   ├── api_keys_setup.md
+│   ├── api_keys_guide.md
 │   ├── architecture.md
 │   ├── memory_architecture.md
 │   ├── rag_architecture.md
@@ -473,7 +473,7 @@ ai-customer-support-agent/
 
 | Document | Description |
 |----------|-------------|
-| [docs/api_keys_setup.md](docs/api_keys_setup.md) | Step-by-step guide for creating OpenAI, Anthropic, and Langfuse API keys |
+| [docs/api_keys_guide.md](docs/api_keys_guide.md) | Step-by-step guide for creating OpenAI, Anthropic, and Langfuse API keys |
 | [docs/project_problem_definition.md](docs/project_problem_definition.md) | Full Project Requirements Specification — problem, objectives, data models, walkthrough |
 | [docs/project_checklist.md](docs/project_checklist.md) | End-to-end implementation checklist across 21 phases |
 | [docs/architecture.md](docs/architecture.md) | System architecture diagram |
