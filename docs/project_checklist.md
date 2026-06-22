@@ -15,13 +15,14 @@ Use this checklist to track implementation progress across all project phases.
 - [x] Create and activate a Python virtual environment (`python -m venv .venv`)
 - [x] Populate `requirements.txt` with all project dependencies
 - [x] Populate `pyproject.toml` with project metadata and tool config (Ruff, MyPy, Pytest)
-- [ ] Copy `.env.example` → `.env` and fill in all required values:
-  - [ ] `OPENAI_API_KEY` — **primary, recommended** (use `gpt-4o-mini` for dev, `gpt-4o` for prod)
-  - [ ] `ANTHROPIC_API_KEY` — optional fallback only, not required to get started
-  - [ ] `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY`
-  - [ ] `DATABASE_URL` (SQLite for local, PostgreSQL for production)
-  - [ ] `CHROMA_PERSIST_PATH`
-  - [ ] `AIRFLOW_HOME`
+- [x] Copy `.env.example` → `.env` and fill in all required values:
+  - [ ] `OPENAI_API_KEY` — **paste your key directly into `.env`** (platform.openai.com → API Keys)
+  - [ ] `ANTHROPIC_API_KEY` — optional, skip for now
+  - [ ] `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` — **paste your keys into `.env`** (cloud.langfuse.com → Project Settings)
+  - [x] `DATABASE_URL` — set to SQLite default ✓
+  - [x] `CHROMA_PERSIST_PATH` — set to `./data/chroma_db` ✓
+  - [x] `AIRFLOW_HOME` — set to `./orchestration/airflow` ✓
+  - [x] `SECRET_KEY` — auto-generated (64-char hex) ✓
 - [x] Populate `config/settings.py` with Pydantic `BaseSettings` to load `.env` values
 - [x] Populate `config/constants.py` with ticket categories, department names, confidence thresholds
 - [x] Verify imports work: `python -c "from config.settings import settings"`
