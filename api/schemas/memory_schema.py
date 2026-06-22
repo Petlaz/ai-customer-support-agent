@@ -1,3 +1,4 @@
+"""Pydantic schemas for customer history, similar cases, and memory context."""
 from datetime import datetime
 
 from pydantic import BaseModel, Field

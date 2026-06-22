@@ -1,3 +1,4 @@
+"""Pydantic BaseSettings — loads all configuration from environment variables and .env."""
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 

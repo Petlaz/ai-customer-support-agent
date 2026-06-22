@@ -1,3 +1,4 @@
+"""Pydantic schemas for ticket routing decisions and routing requests."""
 from pydantic import BaseModel, Field
 
 

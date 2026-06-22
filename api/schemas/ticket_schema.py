@@ -1,3 +1,4 @@
+"""Pydantic schemas for incoming ticket requests and outgoing ticket responses."""
 from datetime import datetime
 
 from pydantic import BaseModel, Field

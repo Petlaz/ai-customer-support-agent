@@ -1,3 +1,4 @@
+"""SQLAlchemy engine, declarative Base, and table creation utility."""
 import os
 
 from sqlalchemy import create_engine

@@ -1,3 +1,4 @@
+"""SQLAlchemy ORM models — defines all database tables for the support agent."""
 from datetime import datetime
 
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Text, func

@@ -1,3 +1,4 @@
+"""Project-wide enums, routing rules, escalation keywords, and generation constants."""
 from enum import Enum
 
 

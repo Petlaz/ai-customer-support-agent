@@ -1,3 +1,4 @@
+"""Pydantic schemas for evaluation test cases and their results."""
 from datetime import datetime
 
 from pydantic import BaseModel, Field

@@ -1,3 +1,4 @@
+"""Pydantic schemas for escalation payloads sent to human reviewers."""
 from pydantic import BaseModel, Field
 
 

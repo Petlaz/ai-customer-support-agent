@@ -1,3 +1,4 @@
+"""Generic Pydantic response wrappers used across all API endpoints."""
 from pydantic import BaseModel
 
 

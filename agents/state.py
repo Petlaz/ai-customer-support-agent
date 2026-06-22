@@ -1,3 +1,4 @@
+"""LangGraph AgentState — the shared state TypedDict that flows through every graph node."""
 import operator
 from typing import Annotated, TypedDict
 
