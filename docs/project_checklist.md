@@ -16,13 +16,15 @@ Use this checklist to track implementation progress across all project phases.
 - [x] Populate `requirements.txt` with all project dependencies
 - [x] Populate `pyproject.toml` with project metadata and tool config (Ruff, MyPy, Pytest)
 - [x] Copy `.env.example` → `.env` and fill in all required values:
-  - [ ] `OPENAI_API_KEY` — **paste your key directly into `.env`** (platform.openai.com → API Keys)
-  - [ ] `ANTHROPIC_API_KEY` — optional, skip for now
-  - [ ] `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` — **paste your keys into `.env`** (cloud.langfuse.com → Project Settings)
+  - [x] `OPENAI_API_KEY` — key set ✓ (add billing credits at platform.openai.com/settings/billing)
+  - [ ] `ANTHROPIC_API_KEY` — optional, key set ✓ (add billing credits at console.anthropic.com/settings/billing)
+  - [x] `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` — set and verified ✓
   - [x] `DATABASE_URL` — set to SQLite default ✓
   - [x] `CHROMA_PERSIST_PATH` — set to `./data/chroma_db` ✓
   - [x] `AIRFLOW_HOME` — set to `./orchestration/airflow` ✓
   - [x] `SECRET_KEY` — auto-generated (64-char hex) ✓
+
+  > See [`docs/api_keys_setup.md`](api_keys_setup.md) for step-by-step key creation instructions.
 - [x] Populate `config/settings.py` with Pydantic `BaseSettings` to load `.env` values
 - [x] Populate `config/constants.py` with ticket categories, department names, confidence thresholds
 - [x] Verify imports work: `python -c "from config.settings import settings"`
