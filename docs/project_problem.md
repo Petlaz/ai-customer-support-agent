@@ -78,4 +78,4 @@ The agent escalates to human review when:
 
 For the complete Project Requirements Specification including agent architecture, data models, technology decisions, and implementation order, see:
 
-→ [`project_problem_definition.md`](../project_problem_definition.md)
+→ [`project_problem_definition.md`](project_problem_definition.md)

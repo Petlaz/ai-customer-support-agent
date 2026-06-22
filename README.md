@@ -189,21 +189,6 @@ See `.env.example` for the full list.
 ```
 ai-customer-support-agent/
 ├── README.md
-├── project_problem_definition.md
-├── project_checklist.md
-├── .gitignore
-├── .env.example
-├── pyproject.toml
-├── requirements.txt
-├── Dockerfile
-├── airflow.Dockerfile
-├── docker-compose.yml
-
-```
-ai-customer-support-agent/
-├── README.md
-├── project_problem_definition.md
-├── project_checklist.md
 ├── .gitignore
 ├── .env.example
 ├── pyproject.toml
@@ -428,6 +413,8 @@ ai-customer-support-agent/
 │       └── deploy.yml
 │
 ├── docs/
+│   ├── project_problem_definition.md
+│   ├── project_checklist.md
 │   ├── project_problem.md
 │   ├── architecture.md
 │   ├── memory_architecture.md
@@ -455,8 +442,8 @@ ai-customer-support-agent/
 
 | Module | Description |
 |--------|-------------|
-| `project_problem_definition.md` | Full Project Requirements Specification (PRS) — problem, objectives, architecture, tech stack |
-| `project_checklist.md` | End-to-end implementation checklist tracking progress across all 21 phases |
+| `docs/project_problem_definition.md` | Full Project Requirements Specification (PRS) — problem, objectives, architecture, tech stack |
+| `docs/project_checklist.md` | End-to-end implementation checklist tracking progress across all 21 phases |
 | `app/` | FastAPI application entry point, dependencies, and lifecycle hooks |
 | `config/` | Settings management (Pydantic BaseSettings) and project-wide constants |
 | `api/` | API route handlers and Pydantic request/response schemas |
@@ -486,8 +473,8 @@ ai-customer-support-agent/
 
 | Document | Description |
 |----------|-------------|
-| [project_problem_definition.md](project_problem_definition.md) | Full Project Requirements Specification — problem, objectives, data models, walkthrough |
-| [project_checklist.md](project_checklist.md) | End-to-end implementation checklist across 21 phases |
+| [docs/project_problem_definition.md](docs/project_problem_definition.md) | Full Project Requirements Specification — problem, objectives, data models, walkthrough |
+| [docs/project_checklist.md](docs/project_checklist.md) | End-to-end implementation checklist across 21 phases |
 | [docs/architecture.md](docs/architecture.md) | System architecture diagram |
 | [docs/memory_architecture.md](docs/memory_architecture.md) | Three-layer memory design |
 | [docs/rag_architecture.md](docs/rag_architecture.md) | RAG pipeline design |
