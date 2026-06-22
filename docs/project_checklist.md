@@ -130,30 +130,30 @@ Use this checklist to track implementation progress across all project phases.
 
 ### Pydantic Schemas (`api/schemas/`)
 
-- [ ] `api/schemas/ticket_schema.py` — `TicketInput` model (ticket_id, customer_id, subject, message, channel, priority, created_at)
-- [ ] `api/schemas/response_schema.py` — `TicketResponse` model (ticket_id, classification, confidence_score, response, routing_decision, escalated, summary, tokens_used, cost_usd)
-- [ ] `api/schemas/routing_schema.py` — `RoutingDecision` model
-- [ ] `api/schemas/escalation_schema.py` — `EscalationPayload` model
-- [ ] `api/schemas/memory_schema.py` — `CustomerHistory`, `SimilarCase` models
-- [ ] `api/schemas/evaluation_schema.py` — `EvalCase`, `EvalResult` models
+- [x] `api/schemas/ticket_schema.py` — `TicketInput` model (ticket_id, customer_id, subject, message, channel, priority, created_at)
+- [x] `api/schemas/response_schema.py` — `TicketResponse` model (ticket_id, classification, confidence_score, response, routing_decision, escalated, summary, tokens_used, cost_usd)
+- [x] `api/schemas/routing_schema.py` — `RoutingDecision` model
+- [x] `api/schemas/escalation_schema.py` — `EscalationPayload` model
+- [x] `api/schemas/memory_schema.py` — `CustomerHistory`, `SimilarCase` models
+- [x] `api/schemas/evaluation_schema.py` — `EvalCase`, `EvalResult` models
 
 ### LangGraph State (`agents/state.py`)
 
-- [ ] `agents/state.py` — `AgentState` TypedDict with all fields: ticket, customer_history, similar_cases, classification, confidence_score, retrieved_policies, draft_response, routing_decision, escalation_required, escalation_reason, summary, audit_log, langfuse_trace_id
+- [x] `agents/state.py` — `AgentState` TypedDict with all fields: ticket, customer_history, similar_cases, classification, confidence_score, retrieved_policies, draft_response, routing_decision, escalation_required, escalation_reason, summary, audit_log, langfuse_trace_id
 
 ### SQLAlchemy Models (`database/`)
 
-- [ ] `database/models.py` — ORM models: `Customer`, `Ticket`, `Conversation`, `Response`, `RoutingDecision`, `Escalation`, `AgentLog`, `EvaluationResult`
-- [ ] `database/db.py` — SQLAlchemy engine, `Base`, `create_all()`
-- [ ] `database/session.py` — `SessionLocal` factory, `get_db()` dependency
+- [x] `database/models.py` — ORM models: `Customer`, `Ticket`, `Conversation`, `Response`, `RoutingDecision`, `Escalation`, `AgentLog`, `EvaluationResult`
+- [x] `database/db.py` — SQLAlchemy engine, `Base`, `create_all()`
+- [x] `database/session.py` — `SessionLocal` factory, `get_db()` dependency
 
 ### Alembic Migrations
 
-- [ ] Run `alembic init alembic` to initialise migrations folder
-- [ ] Configure `alembic.ini` and `alembic/env.py` to point at `DATABASE_URL` from settings
-- [ ] Generate first migration: `alembic revision --autogenerate -m "initial schema"`
-- [ ] Apply migration: `alembic upgrade head`
-- [ ] Verify all tables created in `data/support_agent.db`
+- [x] Run `alembic init alembic` to initialise migrations folder
+- [x] Configure `alembic.ini` and `alembic/env.py` to point at `DATABASE_URL` from settings
+- [x] Generate first migration: `alembic revision --autogenerate -m "initial schema"`
+- [x] Apply migration: `alembic upgrade head`
+- [x] Verify all tables created in `data/support_agent.db` — 8 tables confirmed ✓
 
 ---
 
