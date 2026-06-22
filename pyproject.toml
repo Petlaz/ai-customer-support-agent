@@ -1,0 +1,33 @@
+[project]
+name = "ai-customer-support-agent"
+version = "0.1.0"
+description = "Production-grade Agentic AI Customer Support Automation Platform"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Peter Ugonna Obi" }]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app", "agents", "api", "config", "database", "evaluation",
+                     "frontend", "memory", "monitoring", "observability",
+                     "rag", "security", "tools"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+ignore_missing_imports = true
+exclude = ["tests/", "scripts/", "notebooks/"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "--cov=. --cov-report=term-missing --cov-omit=tests/*,scripts/*"
