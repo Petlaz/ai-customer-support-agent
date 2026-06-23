@@ -87,7 +87,7 @@ Route Ticket
 ### 1. Clone and set up environment
 
 ```bash
-git clone https://github.com/your-org/ai-customer-support-agent.git
+git clone https://github.com/Petlaz/ai-customer-support-agent.git
 cd ai-customer-support-agent
 
 python -m venv .venv
@@ -416,6 +416,7 @@ ai-customer-support-agent/
 │   ├── project_problem_definition.md
 │   ├── project_checklist.md
 │   ├── api_keys_guide.md
+│   ├── build_log.md
 │   ├── architecture.md
 │   ├── memory_architecture.md
 │   ├── rag_architecture.md
@@ -476,6 +477,7 @@ ai-customer-support-agent/
 | [docs/api_keys_guide.md](docs/api_keys_guide.md) | Step-by-step guide for creating OpenAI, Anthropic, and Langfuse API keys |
 | [docs/project_problem_definition.md](docs/project_problem_definition.md) | Full Project Requirements Specification — problem, objectives, data models, walkthrough |
 | [docs/project_checklist.md](docs/project_checklist.md) | End-to-end implementation checklist across 21 phases |
+| [docs/build_log.md](docs/build_log.md) | Running build log — what works, what doesn't, issues and decisions per phase |
 | [docs/architecture.md](docs/architecture.md) | System architecture diagram |
 | [docs/memory_architecture.md](docs/memory_architecture.md) | Three-layer memory design |
 | [docs/rag_architecture.md](docs/rag_architecture.md) | RAG pipeline design |

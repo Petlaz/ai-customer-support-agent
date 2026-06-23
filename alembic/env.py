@@ -1,3 +1,4 @@
+"""Alembic environment — wires database URL and model metadata for migration autogeneration."""
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config

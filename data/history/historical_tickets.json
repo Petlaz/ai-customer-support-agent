@@ -1,0 +1,122 @@
+[
+    {
+        "ticket_id": "TKT-HIST-001",
+        "customer_id": "CUST-101",
+        "subject": "Refund request for unused month",
+        "message": "I signed up 3 weeks ago but I haven't been able to use the service. I'd like a refund.",
+        "classification": "Refund",
+        "channel": "email",
+        "priority": "medium",
+        "status": "resolved",
+        "created_at": "2025-03-10T11:00:00Z",
+        "resolved_at": "2025-03-11T09:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-HIST-002",
+        "customer_id": "CUST-101",
+        "subject": "Cannot export data",
+        "message": "I can't find the export option anywhere in the app. I need to export my project data to CSV.",
+        "classification": "Technical Support",
+        "channel": "chat",
+        "priority": "low",
+        "status": "resolved",
+        "created_at": "2025-05-20T14:30:00Z",
+        "resolved_at": "2025-05-20T15:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-HIST-003",
+        "customer_id": "CUST-102",
+        "subject": "API rate limit questions",
+        "message": "We're hitting rate limits on the API. What are the limits and can they be increased?",
+        "classification": "Product Questions",
+        "channel": "email",
+        "priority": "low",
+        "status": "resolved",
+        "created_at": "2025-04-05T10:00:00Z",
+        "resolved_at": "2025-04-05T10:30:00Z"
+    },
+    {
+        "ticket_id": "TKT-HIST-004",
+        "customer_id": "CUST-103",
+        "subject": "Account locked after office move",
+        "message": "My account is locked. I recently moved offices and changed my email. I can't get back in.",
+        "classification": "Account Access",
+        "channel": "chat",
+        "priority": "high",
+        "status": "resolved",
+        "created_at": "2024-10-14T08:00:00Z",
+        "resolved_at": "2024-10-14T09:30:00Z"
+    },
+    {
+        "ticket_id": "TKT-HIST-005",
+        "customer_id": "CUST-103",
+        "subject": "Billing dispute - incorrect plan charge",
+        "message": "I was charged $99 this month but I'm on the Pro plan at $49. I didn't upgrade.",
+        "classification": "Billing",
+        "channel": "email",
+        "priority": "medium",
+        "status": "resolved",
+        "created_at": "2024-12-01T13:00:00Z",
+        "resolved_at": "2024-12-02T11:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-HIST-006",
+        "customer_id": "CUST-103",
+        "subject": "Threatening to escalate to consumer protection agency",
+        "message": "This is the third billing issue I've had. I am going to escalate this to a consumer protection agency if not resolved today.",
+        "classification": "Billing",
+        "channel": "email",
+        "priority": "high",
+        "status": "resolved",
+        "created_at": "2025-02-10T15:00:00Z",
+        "resolved_at": "2025-02-12T10:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-HIST-007",
+        "customer_id": "CUST-116",
+        "subject": "Duplicate charge on monthly subscription",
+        "message": "I was charged twice for my Pro plan this month, both charges of $49. Please refund the duplicate.",
+        "classification": "Billing",
+        "channel": "email",
+        "priority": "medium",
+        "status": "resolved",
+        "created_at": "2025-05-02T09:00:00Z",
+        "resolved_at": "2025-05-02T11:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-HIST-008",
+        "customer_id": "CUST-117",
+        "subject": "Cannot log in - locked out",
+        "message": "My account got locked after too many failed password attempts. I need to get back in urgently.",
+        "classification": "Account Access",
+        "channel": "chat",
+        "priority": "high",
+        "status": "resolved",
+        "created_at": "2025-05-15T08:30:00Z",
+        "resolved_at": "2025-05-15T08:50:00Z"
+    },
+    {
+        "ticket_id": "TKT-HIST-009",
+        "customer_id": "CUST-118",
+        "subject": "Charged after cancellation",
+        "message": "I cancelled my subscription last month and have the confirmation email but was still charged $49.",
+        "classification": "Refund",
+        "channel": "email",
+        "priority": "high",
+        "status": "resolved",
+        "created_at": "2025-06-02T10:00:00Z",
+        "resolved_at": "2025-06-02T11:30:00Z"
+    },
+    {
+        "ticket_id": "TKT-HIST-010",
+        "customer_id": "CUST-119",
+        "subject": "SSO setup with Okta",
+        "message": "We want to set up SSO with Okta. We're on the Business plan. How do we get started?",
+        "classification": "Technical Support",
+        "channel": "email",
+        "priority": "low",
+        "status": "resolved",
+        "created_at": "2025-06-10T14:00:00Z",
+        "resolved_at": "2025-06-10T16:30:00Z"
+    }
+]

@@ -1,0 +1,94 @@
+[
+    {
+        "customer_id": "CUST-101",
+        "name": "Sarah Mitchell",
+        "email": "sarah.mitchell@example.com",
+        "plan": "Pro",
+        "plan_start_date": "2025-01-15",
+        "total_tickets": 2,
+        "previous_escalations": 0,
+        "previous_refunds": 1,
+        "tickets": [
+            {
+                "ticket_id": "TKT-HIST-001",
+                "subject": "Refund request for unused month",
+                "classification": "Refund",
+                "status": "resolved",
+                "resolution": "Full refund issued for unused month. Customer was within 30-day window.",
+                "created_at": "2025-03-10T11:00:00Z",
+                "resolved_at": "2025-03-11T09:00:00Z"
+            },
+            {
+                "ticket_id": "TKT-HIST-002",
+                "subject": "Cannot export data",
+                "classification": "Technical Support",
+                "status": "resolved",
+                "resolution": "Guided customer to Settings > Data > Export. Issue was user navigation error.",
+                "created_at": "2025-05-20T14:30:00Z",
+                "resolved_at": "2025-05-20T15:00:00Z"
+            }
+        ]
+    },
+    {
+        "customer_id": "CUST-102",
+        "name": "James Chen",
+        "email": "james.chen@example.com",
+        "plan": "Business",
+        "plan_start_date": "2024-11-01",
+        "total_tickets": 1,
+        "previous_escalations": 0,
+        "previous_refunds": 0,
+        "tickets": [
+            {
+                "ticket_id": "TKT-HIST-003",
+                "subject": "API rate limit questions",
+                "classification": "Product Questions",
+                "status": "resolved",
+                "resolution": "Explained rate limits per plan. Customer confirmed Business plan (5,000 req/min) was sufficient.",
+                "created_at": "2025-04-05T10:00:00Z",
+                "resolved_at": "2025-04-05T10:30:00Z"
+            }
+        ]
+    },
+    {
+        "customer_id": "CUST-103",
+        "name": "Maria Santos",
+        "email": "maria.santos@example.com",
+        "plan": "Pro",
+        "plan_start_date": "2024-08-20",
+        "total_tickets": 3,
+        "previous_escalations": 1,
+        "previous_refunds": 0,
+        "tickets": [
+            {
+                "ticket_id": "TKT-HIST-004",
+                "subject": "Account locked after office move",
+                "classification": "Account Access",
+                "status": "resolved",
+                "resolution": "Account unlocked after identity verification. Customer had changed email providers.",
+                "created_at": "2024-10-14T08:00:00Z",
+                "resolved_at": "2024-10-14T09:30:00Z"
+            },
+            {
+                "ticket_id": "TKT-HIST-005",
+                "subject": "Billing dispute - incorrect plan charge",
+                "classification": "Billing",
+                "status": "resolved",
+                "resolution": "Credit issued for one month overcharge. System error confirmed by billing team.",
+                "created_at": "2024-12-01T13:00:00Z",
+                "resolved_at": "2024-12-02T11:00:00Z"
+            },
+            {
+                "ticket_id": "TKT-HIST-006",
+                "subject": "Threatening to escalate to consumer protection agency",
+                "classification": "Billing",
+                "status": "resolved",
+                "resolution": "Escalated to senior agent. Full refund issued and account credited with 2 free months as goodwill.",
+                "created_at": "2025-02-10T15:00:00Z",
+                "resolved_at": "2025-02-12T10:00:00Z",
+                "escalated": true,
+                "escalation_reason": "Customer mentioned regulatory escalation"
+            }
+        ]
+    }
+]

@@ -168,13 +168,14 @@ Use this checklist to track implementation progress across all project phases.
 - [x] `data/history/customer_history.json` — file created
 - [x] `data/history/historical_resolutions.json` — file created
 - [x] `data/evaluation/eval_cases.json` — file created
-- [ ] Add realistic content to `sample_tickets.json` (10–20 varied tickets across all categories)
-- [ ] Add realistic content to `refund_policy.md` (company refund rules)
-- [ ] Add realistic content to `billing_policy.md` (billing cycles, charges, disputes)
-- [ ] Add realistic content to `support_faq.md` (common questions + answers)
-- [ ] Add realistic content to `customer_history.json` (2–3 customers with prior tickets)
-- [ ] Add realistic content to `historical_resolutions.json` (past tickets + resolutions)
-- [ ] Add realistic content to `eval_cases.json` (input/expected-output pairs for evaluation)
+- [x] Add realistic content to `sample_tickets.json` — 18 tickets across all 6 categories ✓
+- [x] Add realistic content to `refund_policy.md` — 30-day guarantee, prorated refunds, duplicate charges, high-value policy ✓
+- [x] Add realistic content to `billing_policy.md` — cycles, pricing table, failed payments, invoices, disputes ✓
+- [x] Add realistic content to `support_faq.md` — account, billing, product features, technical Q&A ✓
+- [x] Add realistic content to `technical_support_guide.md` — login issues, performance, API, mobile, integrations ✓
+- [x] Add realistic content to `customer_history.json` — 3 customers with prior tickets and escalation history ✓
+- [x] Add realistic content to `historical_resolutions.json` — 6 resolved tickets with agent responses ✓
+- [x] Add realistic content to `eval_cases.json` — 10 eval cases including 3 escalation scenarios ✓
 
 ---
 

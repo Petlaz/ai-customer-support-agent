@@ -1,0 +1,162 @@
+[
+    {
+        "case_id": "EVAL-001",
+        "ticket_input": {
+            "ticket_id": "EVAL-TKT-001",
+            "customer_id": "CUST-EVAL-01",
+            "subject": "Charged twice this month",
+            "message": "I was charged twice for my Pro subscription this month — two charges of $49 each. Please refund the duplicate.",
+            "channel": "email",
+            "priority": "medium",
+            "created_at": "2026-06-01T10:00:00Z"
+        },
+        "expected_classification": "Billing",
+        "expected_routing": "Billing Team",
+        "expected_escalation": false,
+        "notes": "Clear duplicate charge billing case. High confidence expected."
+    },
+    {
+        "case_id": "EVAL-002",
+        "ticket_input": {
+            "ticket_id": "EVAL-TKT-002",
+            "customer_id": "CUST-EVAL-02",
+            "subject": "Refund request - within 30 days",
+            "message": "I signed up 2 weeks ago but the product doesn't meet our needs. I'd like a full refund under your 30-day guarantee.",
+            "channel": "email",
+            "priority": "medium",
+            "created_at": "2026-06-02T11:00:00Z"
+        },
+        "expected_classification": "Refund",
+        "expected_routing": "Billing Team",
+        "expected_escalation": false,
+        "notes": "Standard 30-day refund. Should be auto-approved without escalation."
+    },
+    {
+        "case_id": "EVAL-003",
+        "ticket_input": {
+            "ticket_id": "EVAL-TKT-003",
+            "customer_id": "CUST-EVAL-03",
+            "subject": "Cannot log into my account",
+            "message": "I've been locked out of my account since this morning. Password reset emails are not arriving.",
+            "channel": "chat",
+            "priority": "high",
+            "created_at": "2026-06-03T09:00:00Z"
+        },
+        "expected_classification": "Account Access",
+        "expected_routing": "Technical Support Team",
+        "expected_escalation": false,
+        "notes": "Standard lockout case. Technical support can resolve with manual reset."
+    },
+    {
+        "case_id": "EVAL-004",
+        "ticket_input": {
+            "ticket_id": "EVAL-TKT-004",
+            "customer_id": "CUST-EVAL-04",
+            "subject": "App crashes on file upload",
+            "message": "The app crashes every time I try to upload a 45MB PDF. I'm on Chrome 125, Windows 11. Error says 'Upload failed: unexpected error'.",
+            "channel": "chat",
+            "priority": "high",
+            "created_at": "2026-06-04T14:00:00Z"
+        },
+        "expected_classification": "Technical Support",
+        "expected_routing": "Technical Support Team",
+        "expected_escalation": false,
+        "notes": "Technical bug report. Should be routed to tech support, not escalated."
+    },
+    {
+        "case_id": "EVAL-005",
+        "ticket_input": {
+            "ticket_id": "EVAL-TKT-005",
+            "customer_id": "CUST-EVAL-05",
+            "subject": "Does the Pro plan include SSO?",
+            "message": "We're evaluating your product for our team of 20. Does the Pro plan support SSO with Okta? We need this before we can purchase.",
+            "channel": "email",
+            "priority": "low",
+            "created_at": "2026-06-05T10:00:00Z"
+        },
+        "expected_classification": "Product Questions",
+        "expected_routing": "Customer Success Team",
+        "expected_escalation": false,
+        "notes": "Pre-sales product question. SSO is Business/Enterprise only — agent should clarify."
+    },
+    {
+        "case_id": "EVAL-006",
+        "ticket_input": {
+            "ticket_id": "EVAL-TKT-006",
+            "customer_id": "CUST-EVAL-06",
+            "subject": "Annual plan refund - $693",
+            "message": "We need to cancel our annual Business plan. We're 5 months in and want a prorated refund for the remaining 7 months, approximately $693.",
+            "channel": "email",
+            "priority": "high",
+            "created_at": "2026-06-06T13:00:00Z"
+        },
+        "expected_classification": "Refund",
+        "expected_routing": "Billing Team",
+        "expected_escalation": true,
+        "notes": "High-value refund (>$500). Must be escalated per refund policy for manager approval."
+    },
+    {
+        "case_id": "EVAL-007",
+        "ticket_input": {
+            "ticket_id": "EVAL-TKT-007",
+            "customer_id": "CUST-EVAL-07",
+            "subject": "GDPR data deletion request",
+            "message": "I am exercising my right to erasure under GDPR Article 17. Please delete all my personal data from your systems immediately.",
+            "channel": "email",
+            "priority": "high",
+            "created_at": "2026-06-07T15:00:00Z"
+        },
+        "expected_classification": "Account Access",
+        "expected_routing": "Human Review Queue",
+        "expected_escalation": true,
+        "notes": "GDPR compliance request. Legal/compliance concern — must be escalated regardless of confidence."
+    },
+    {
+        "case_id": "EVAL-008",
+        "ticket_input": {
+            "ticket_id": "EVAL-TKT-008",
+            "customer_id": "CUST-EVAL-08",
+            "subject": "Fraud and legal action",
+            "message": "I was charged without my consent. This is fraud and I am consulting my lawyer. I will take legal action if this is not resolved immediately.",
+            "channel": "email",
+            "priority": "high",
+            "created_at": "2026-06-08T16:00:00Z"
+        },
+        "expected_classification": "Billing",
+        "expected_routing": "Human Review Queue",
+        "expected_escalation": true,
+        "notes": "Escalation keywords: 'fraud', 'lawyer', 'legal action'. Must escalate regardless of confidence."
+    },
+    {
+        "case_id": "EVAL-009",
+        "ticket_input": {
+            "ticket_id": "EVAL-TKT-009",
+            "customer_id": "CUST-EVAL-09",
+            "subject": "Pricing for Enterprise plan",
+            "message": "We're a company of 150 employees interested in the Enterprise plan. Can you send us pricing information and arrange a call with your sales team?",
+            "channel": "email",
+            "priority": "low",
+            "created_at": "2026-06-09T11:00:00Z"
+        },
+        "expected_classification": "General Inquiry",
+        "expected_routing": "Customer Success Team",
+        "expected_escalation": false,
+        "notes": "Enterprise sales inquiry. Route to Customer Success for follow-up."
+    },
+    {
+        "case_id": "EVAL-010",
+        "ticket_input": {
+            "ticket_id": "EVAL-TKT-010",
+            "customer_id": "CUST-EVAL-10",
+            "subject": "Charged after I cancelled - I have proof",
+            "message": "I cancelled on May 25th and have the confirmation email. I was still charged $49 on June 1st. Please refund this immediately.",
+            "channel": "email",
+            "priority": "high",
+            "created_at": "2026-06-10T10:00:00Z"
+        },
+        "expected_classification": "Refund",
+        "expected_routing": "Billing Team",
+        "expected_escalation": false,
+        "notes": "Charge after cancellation — clear billing error. Should resolve without escalation."
+    }
+]

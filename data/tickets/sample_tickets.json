@@ -1,0 +1,164 @@
+[
+    {
+        "ticket_id": "TKT-001",
+        "customer_id": "CUST-101",
+        "subject": "Charged twice for my subscription",
+        "message": "Hi, I noticed my credit card was charged twice for my monthly Pro subscription on June 1st. Both charges are $49. I should only be billed once per month. Please refund the duplicate charge as soon as possible.",
+        "channel": "email",
+        "priority": "medium",
+        "created_at": "2026-06-01T10:30:00Z"
+    },
+    {
+        "ticket_id": "TKT-002",
+        "customer_id": "CUST-102",
+        "subject": "Invoice shows incorrect amount",
+        "message": "My latest invoice shows $99 but I'm on the Pro plan which is $49/month. I did not upgrade. Please correct this and send an updated invoice. I also want to make sure I was not overcharged.",
+        "channel": "chat",
+        "priority": "medium",
+        "created_at": "2026-06-02T14:15:00Z"
+    },
+    {
+        "ticket_id": "TKT-003",
+        "customer_id": "CUST-103",
+        "subject": "Unexpected charge after downgrading plan",
+        "message": "I downgraded from Business to Pro last week but was still charged $99 this month instead of $49. Your billing page says downgrades take effect at the next cycle but the cycle already started. This doesn't seem right.",
+        "channel": "email",
+        "priority": "low",
+        "created_at": "2026-06-03T09:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-004",
+        "customer_id": "CUST-104",
+        "subject": "Refund request - never used the service",
+        "message": "I signed up for the Pro plan 10 days ago but I haven't been able to use the service because it doesn't support the integration I need. I'd like to request a full refund under your 30-day money back guarantee.",
+        "channel": "email",
+        "priority": "medium",
+        "created_at": "2026-06-04T11:45:00Z"
+    },
+    {
+        "ticket_id": "TKT-005",
+        "customer_id": "CUST-105",
+        "subject": "Charged after cancellation",
+        "message": "I cancelled my subscription on May 25th and received a confirmation email. However, I was still charged $49 on June 1st. I have the cancellation confirmation email. Please refund this charge immediately.",
+        "channel": "email",
+        "priority": "high",
+        "created_at": "2026-06-01T16:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-006",
+        "customer_id": "CUST-106",
+        "subject": "Request refund for annual plan - $590",
+        "message": "I purchased an annual Business plan for $990 in January. We are now 5 months in and our company is downsizing. We need to cancel and request a prorated refund for the remaining 7 months. Based on your policy that should be approximately $693. Please process this as soon as possible.",
+        "channel": "email",
+        "priority": "high",
+        "created_at": "2026-06-05T13:30:00Z"
+    },
+    {
+        "ticket_id": "TKT-007",
+        "customer_id": "CUST-107",
+        "subject": "Double charged on annual renewal",
+        "message": "My annual Pro plan renewed yesterday and I was charged twice — $490 and $490. Both transactions appear on my bank statement. I need the duplicate refunded urgently as this is a large amount.",
+        "channel": "api",
+        "priority": "high",
+        "created_at": "2026-06-06T08:20:00Z"
+    },
+    {
+        "ticket_id": "TKT-008",
+        "customer_id": "CUST-101",
+        "subject": "Cannot log in - password reset email not arriving",
+        "message": "I've been locked out of my account since this morning. I tried the password reset three times but I'm not receiving the email. I checked my spam folder. My email is sarah.mitchell@example.com. I need access urgently as I have a deadline today.",
+        "channel": "chat",
+        "priority": "high",
+        "created_at": "2026-06-07T09:10:00Z"
+    },
+    {
+        "ticket_id": "TKT-009",
+        "customer_id": "CUST-102",
+        "subject": "App crashes every time I try to upload a file",
+        "message": "For the past two days, the app crashes whenever I try to upload a PDF report. The file is 45MB. I'm using Chrome 125 on Windows 11. The error message says 'Upload failed: unexpected error'. This is blocking my work. Can you help?",
+        "channel": "chat",
+        "priority": "high",
+        "created_at": "2026-06-07T14:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-010",
+        "customer_id": "CUST-108",
+        "subject": "API returning 401 Unauthorized",
+        "message": "Our backend integration stopped working this morning. All API calls are returning 401 Unauthorized. We haven't changed anything on our end. I've regenerated the API key but still getting the same error. Here's the request header we're using: Authorization: Bearer <key>.",
+        "channel": "api",
+        "priority": "high",
+        "created_at": "2026-06-08T10:30:00Z"
+    },
+    {
+        "ticket_id": "TKT-011",
+        "customer_id": "CUST-103",
+        "subject": "Account locked - cannot access",
+        "message": "My account has been locked. I think I mistyped my password too many times this morning. I need to get back in as soon as possible. My account email is maria.santos@example.com.",
+        "channel": "chat",
+        "priority": "medium",
+        "created_at": "2026-06-09T11:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-012",
+        "customer_id": "CUST-109",
+        "subject": "GDPR request - delete all my data",
+        "message": "I am a resident of the European Union and I am exercising my right to erasure under GDPR Article 17. I want all of my personal data deleted from your systems immediately. Please confirm receipt of this request and provide a timeline for deletion.",
+        "channel": "email",
+        "priority": "high",
+        "created_at": "2026-06-09T15:30:00Z"
+    },
+    {
+        "ticket_id": "TKT-013",
+        "customer_id": "CUST-110",
+        "subject": "Does your product support SSO?",
+        "message": "We're evaluating Nexus Software for our team of 30 people. Our company uses Okta for identity management. Does your product support SSO via SAML or OIDC? Which plans is it available on? We'd need this before committing.",
+        "channel": "email",
+        "priority": "low",
+        "created_at": "2026-06-10T10:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-014",
+        "customer_id": "CUST-111",
+        "subject": "How do I export my data to CSV?",
+        "message": "I need to export all of my project data to CSV for an audit. I looked through the settings but couldn't find the export option. Can you walk me through the steps? I'm on the Pro plan.",
+        "channel": "chat",
+        "priority": "low",
+        "created_at": "2026-06-10T13:45:00Z"
+    },
+    {
+        "ticket_id": "TKT-015",
+        "customer_id": "CUST-112",
+        "subject": "How many team members can I add on Pro?",
+        "message": "I'm currently on the Pro plan and I have 12 team members. I want to add 5 more. Is there a limit? Do I need to upgrade to a higher plan to accommodate 17 team members?",
+        "channel": "chat",
+        "priority": "low",
+        "created_at": "2026-06-11T09:30:00Z"
+    },
+    {
+        "ticket_id": "TKT-016",
+        "customer_id": "CUST-113",
+        "subject": "Question about Enterprise pricing",
+        "message": "We're a company of 200 employees and we're interested in the Enterprise plan. Can you share pricing details? We need custom SSO, dedicated support, and an SLA of at least 99.9%. What's the process for getting a quote?",
+        "channel": "email",
+        "priority": "low",
+        "created_at": "2026-06-11T14:00:00Z"
+    },
+    {
+        "ticket_id": "TKT-017",
+        "customer_id": "CUST-114",
+        "subject": "Salesforce integration available?",
+        "message": "We use Salesforce heavily and want to know if Nexus Software integrates with it natively. We're on the Business plan. If it's available, how do we set it up?",
+        "channel": "email",
+        "priority": "low",
+        "created_at": "2026-06-12T10:15:00Z"
+    },
+    {
+        "ticket_id": "TKT-018",
+        "customer_id": "CUST-115",
+        "subject": "Unauthorized charges - threatening legal action",
+        "message": "I have been charged for a subscription I never signed up for. I have already disputed this with my bank and I am consulting with my lawyer about potential fraud and legal action if this is not resolved immediately. This is completely unacceptable and I demand a full refund and a written explanation.",
+        "channel": "email",
+        "priority": "high",
+        "created_at": "2026-06-12T16:45:00Z"
+    }
+]
