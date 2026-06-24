@@ -60,11 +60,35 @@ Concise record of what worked, what did not work, and key decisions per phase.
 
 ---
 
+## Phase 5 — RAG Layer [DONE]
+**2026-06-24**
+
+**What worked:**
+- `rag/document_loader.py` — loaded 4 policy docs with source + category metadata
+- `rag/text_extractor.py` — strips markdown headings, bold, links, code, tables
+- `rag/chunker.py` — split 4 docs into 50 chunks (CHUNK_SIZE=500, CHUNK_OVERLAP=50)
+- `rag/embeddings.py` — mock fallback active; same text always produces the same vector (deterministic hash-based)
+- `rag/vector_store.py` — ChromaDB upsert/query/delete working; 50 chunks stored and queried
+- `rag/retriever.py` — policy retrieval and similar-ticket retrieval both functional
+- `rag/metadata_filter.py` — filter by source file and ticket category works
+- `rag/context_formatter.py` — formats retrieved chunks with source labels for LLM prompt
+- Full pipeline test passed: load -> chunk -> embed -> store -> query -> format
+
+**What did not work:**
+- Semantic relevance is not meaningful — mock embeddings return random vectors so retrieved chunks are random, not related to the query. This is expected and correct behaviour until OpenAI credits are active.
+
+**Decisions / Notes:**
+- `rag/embeddings.py` tries OpenAI first on every call and falls back to mock on `RateLimitError` — no config flag needed; swap is automatic when credits are loaded
+- ChromaDB metadata only accepts str/int/float/bool — list fields (categories) are stored as comma-separated strings and parsed back on retrieval
+- `delete_collection` is now a no-op if collection does not exist (fix applied during testing)
+
+---
+
 ## Blocking Issues
 
 | Issue | Impact | Action |
 |-------|--------|--------|
-| OpenAI no billing credits | BLOCKING Phase 5 (embeddings) | Add credits at `platform.openai.com/settings/billing` |
+| OpenAI no billing credits | RAG retrieval uses mock (random) embeddings | Add credits at `platform.openai.com/settings/billing` — pipeline auto-switches to real embeddings |
 | Anthropic no billing credits | Non-blocking | Only needed if switching `LLM_PROVIDER=anthropic` |
 
 ---

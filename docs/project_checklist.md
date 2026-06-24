@@ -187,14 +187,14 @@ Use this checklist to track implementation progress across all project phases.
 
 ### Core Components
 
-- [x] `rag/document_loader.py` — Document loading
-- [x] `rag/text_extractor.py` — Text extraction
-- [x] `rag/chunker.py` — Text chunking
-- [x] `rag/embeddings.py` — Embedding generation
-- [x] `rag/vector_store.py` — Vector storage (ChromaDB)
-- [x] `rag/retriever.py` — Semantic retrieval
-- [x] `rag/metadata_filter.py` — Metadata filtering
-- [x] `rag/context_formatter.py` — Context formatting
+- [x] `rag/document_loader.py` — Document loading — loads 4 policy docs, category-aware loader ✓
+- [x] `rag/text_extractor.py` — Text extraction — strips markdown formatting ✓
+- [x] `rag/chunker.py` — Text chunking — 50 chunks from 4 docs (CHUNK_SIZE=500, OVERLAP=50) ✓
+- [x] `rag/embeddings.py` — Embedding generation — OpenAI primary, deterministic mock fallback ✓
+- [x] `rag/vector_store.py` — Vector storage (ChromaDB) — upsert, query, delete operations ✓
+- [x] `rag/retriever.py` — Semantic retrieval — policy and similar-ticket retrieval ✓
+- [x] `rag/metadata_filter.py` — Metadata filtering — filter by source and category ✓
+- [x] `rag/context_formatter.py` — Context formatting — formats chunks for LLM prompt ✓
 
 ### Airflow Integration
 
