@@ -199,9 +199,9 @@ Use this checklist to track implementation progress across all project phases.
 ### Airflow Integration
 
 - [x] `orchestration/airflow/dags/document_ingestion_dag.py` — Policy ingestion DAG file created
-- [ ] Knowledge base refresh DAG (implement)
-- [ ] Embedding generation DAG (implement)
-- [ ] Vector store synchronization DAG (implement)
+- [ ] Knowledge base refresh DAG — _deferred to Phase 12 (Airflow)_
+- [ ] Embedding generation DAG — _deferred to Phase 12 (Airflow)_
+- [ ] Vector store synchronization DAG — _deferred to Phase 12 (Airflow)_
 
 ---
 
@@ -213,20 +213,22 @@ Use this checklist to track implementation progress across all project phases.
 
 ### Components
 
-- [x] `memory/memory_manager.py`
-- [x] `memory/short_term_memory.py`
-- [x] `memory/long_term_memory.py`
-- [x] `memory/semantic_memory.py`
-- [x] `memory/conversation_history.py`
-- [x] `memory/customer_history.py`
-- [x] `memory/ticket_memory.py`
-- [x] `memory/memory_retriever.py`
+- [x] `memory/short_term_memory.py` — AgentState accessor/builder helpers ✓
+- [x] `memory/long_term_memory.py` — SQLAlchemy CRUD: Customer + Ticket tables ✓
+- [x] `memory/semantic_memory.py` — ChromaDB TICKETS_COLLECTION index + retrieval ✓
+- [x] `memory/conversation_history.py` — LangChain message builders + DB persistence ✓
+- [x] `memory/customer_history.py` — CustomerHistory schema from DB tickets + escalations ✓
+- [x] `memory/ticket_memory.py` — ticket upsert, outcome update, agent log, escalation write ✓
+- [x] `memory/memory_retriever.py` — unified read entry point → MemoryContext ✓
+- [x] `memory/memory_manager.py` — load_memory() + save_memory() agent interface ✓
+
+Smoke test: load_memory(db, ticket) → MemoryContext with 1 ticket, 0 similar cases (empty tickets collection) ✓
 
 ### Airflow Integration
 
 - [x] `orchestration/airflow/dags/memory_indexing_dag.py` — Memory indexing DAG file created
-- [ ] Embedding refresh DAG (implement)
-- [ ] Historical ticket ingestion DAG (implement)
+- [ ] Embedding refresh DAG — _deferred to Phase 12 (Airflow)_
+- [ ] Historical ticket ingestion DAG — _deferred to Phase 12 (Airflow)_
 
 ---
 

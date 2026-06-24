@@ -84,12 +84,39 @@ Concise record of what worked, what did not work, and key decisions per phase.
 
 ---
 
+## Phase 6 — Memory Layer [DONE]
+**2026-06-24**
+
+**What worked:**
+- `memory/short_term_memory.py` — AgentState accessor/builder helpers; partial state dicts for LangGraph nodes
+- `memory/long_term_memory.py` — `get_or_create_customer`, `save_ticket` (idempotent on ticket_id), `get_customer_tickets`, `update_ticket_classification`
+- `memory/semantic_memory.py` — `index_ticket`, `index_tickets_batch`, `retrieve_similar`; wraps Phase 5 ChromaDB TICKETS_COLLECTION
+- `memory/conversation_history.py` — LangChain HumanMessage/AIMessage builders, `format_history`, `save_messages_to_db`
+- `memory/customer_history.py` — `CustomerHistory` schema with prior ticket list, escalation count, refund count from DB
+- `memory/ticket_memory.py` — `update_ticket_outcome` (sets status to "escalated" when required), `log_agent_decision`, `save_escalation`
+- `memory/memory_retriever.py` — unified read entry point returning `MemoryContext` (customer history + similar cases)
+- `memory/memory_manager.py` — `load_memory()` + `save_memory()` as clean interface for agent nodes
+- `tests/test_memory.py` — 48 tests, 48 passed; in-memory SQLite + EphemeralChromaDB, no external services
+- Smoke test: `load_memory(db, ticket)` → `MemoryContext` with 1 ticket, 0 similar cases (empty tickets collection) ✓
+
+**What did not work:**
+- ChromaDB `EphemeralClient` shares in-process state across tests (singleton pattern) — two tests failed because prior test left data in `TICKETS_COLLECTION`. Fixed by calling `delete_collection(TICKETS_COLLECTION)` at the start of affected tests
+- `index_tickets_batch` generated duplicate IDs (`doc_0`) when documents had no `source` field — fixed by using `ticket_id` as the `source` field before calling `add_documents`
+
+**Decisions / Notes:**
+- Distance → similarity conversion: `score = 1 / (1 + distance)` — range [0, 1], no additional normalisation needed
+- `save_memory` is safe to call even if the graph did not complete all nodes — missing state fields default to empty values
+- `historical_tickets` ChromaDB collection is empty until `semantic_memory.index_tickets_batch()` is run (Phase 12 Airflow DAG will automate this)
+
+---
+
 ## Blocking Issues
 
 | Issue | Impact | Action |
 |-------|--------|--------|
 | OpenAI no billing credits | RAG retrieval uses mock (random) embeddings | Add credits at `platform.openai.com/settings/billing` — pipeline auto-switches to real embeddings |
 | Anthropic no billing credits | Non-blocking | Only needed if switching `LLM_PROVIDER=anthropic` |
+| GitHub Actions CI exit code 4 | All CI runs failing | Fixed: removed `addopts` from pyproject.toml; pytest was applying addopts before `--override-ini` could clear them |
 
 ---
 
@@ -97,7 +124,9 @@ Concise record of what worked, what did not work, and key decisions per phase.
 
 | Phase | Goal | Needs OpenAI? |
 |-------|------|--------------|
-| Phase 5 | RAG pipeline — load, chunk, embed, store, retrieve | Yes |
+| Phase 7 | LangGraph agent graph — classify, retrieve, draft, route, escalate | Yes (LLM calls) |
+| Phase 8 | Agent tools — classify_ticket, retrieve_policy, check_escalation | Yes |
+| Phase 9 | Human-in-the-loop — escalation queue, human review | No |
 | Phase 6 | Memory layer — short-term, long-term, semantic | No |
 | Phase 7 | LangGraph agent graph | Yes |
 | Phase 8 | Agent tools | Yes |

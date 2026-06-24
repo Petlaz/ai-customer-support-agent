@@ -30,4 +30,5 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
-addopts = "--cov=. --cov-report=term-missing --cov-omit=tests/*,scripts/*"
+# addopts intentionally omitted — pass coverage flags explicitly:
+#   pytest --cov=. --cov-report=term-missing --cov-omit="tests/*,scripts/*"
