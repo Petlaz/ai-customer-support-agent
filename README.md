@@ -416,6 +416,7 @@ ai-customer-support-agent/
 │   ├── project_problem_definition.md
 │   ├── project_checklist.md
 │   ├── api_keys_guide.md
+│   ├── tech_stack.md
 │   ├── build_log.md
 │   ├── architecture.md
 │   ├── memory_architecture.md
@@ -477,6 +478,7 @@ ai-customer-support-agent/
 | [docs/api_keys_guide.md](docs/api_keys_guide.md) | Step-by-step guide for creating OpenAI, Anthropic, and Langfuse API keys |
 | [docs/project_problem_definition.md](docs/project_problem_definition.md) | Full Project Requirements Specification — problem, objectives, data models, walkthrough |
 | [docs/project_checklist.md](docs/project_checklist.md) | End-to-end implementation checklist across 21 phases |
+| [docs/tech_stack.md](docs/tech_stack.md) | Full tech stack with version and role for every technology used |
 | [docs/build_log.md](docs/build_log.md) | Running build log — what works, what doesn't, issues and decisions per phase |
 | [docs/architecture.md](docs/architecture.md) | System architecture diagram |
 | [docs/memory_architecture.md](docs/memory_architecture.md) | Three-layer memory design |
