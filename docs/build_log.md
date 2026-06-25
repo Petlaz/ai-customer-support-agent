@@ -204,11 +204,40 @@ Concise record of what worked, what did not work, and key decisions per phase.
 
 ---
 
+## Phase 10 — FastAPI Backend [DONE]
+**2026-06-25**
+
+**What worked:**
+- `main.py` (root) — `asynccontextmanager` lifespan compiles the LangGraph graph exactly once at startup and stores it on `app.state.graph`; CORS middleware; 4 routers registered with correct prefixes
+- `GET /health` — `db.execute(text("SELECT 1"))` confirms DB reachability; returns `{"status": "ok", "version": "1.0.0", "database": "ok"}`
+- `GET /metrics/` — `AgentLog` aggregates (total tickets, escalation count + rate, avg confidence, total tokens, total cost, per-classification breakdown) all correct
+- `POST /tickets/analyze` — `request.app.state.graph.invoke(initial_state)` runs the full 11-node LangGraph pipeline; maps output to `TicketResponse`; Langfuse trace URL constructed from `{host}/traces/{trace_id}` when trace_id present
+- `POST /tickets/classify` — calls `classify_ticket.invoke()` directly; skips retrieval, drafting, and memory writes; fastest endpoint
+- `POST /tickets/respond` — calls `draft_response.invoke()` with pre-provided `policy_context` and `similar_cases`; caller controls context
+- `POST /tickets/route` — pure `route_ticket.invoke()` lookup; no DB or LLM calls
+- `POST /tickets/history` — DB query via `Customer` + `Ticket` models; returns empty list (not 404) for unknown customers
+- `GET /tickets/{ticket_id}` — DB lookup; 404 with message if not found
+- `GET /customers/{customer_id}` — DB lookup + last 20 tickets joined; 404 with message if not found
+- `tests/test_api.py` — 20 tests, all pass: `TestClient`, `StaticPool` in-memory SQLite, module-scoped `client` fixture, `_seed_once()` guard, tool patching via `unittest.mock.patch`
+
+**What did not work:**
+- **SQLite in-memory DB session isolation** — using `create_engine("sqlite:///:memory:")` without `StaticPool` means every `sessionmaker()` call opens a new connection and gets its own empty database; tables created by `create_all` were invisible to subsequent sessions → `no such table: agent_logs` error. Fixed by adding `poolclass=StaticPool` to the test engine.
+- **`seeded_db` UNIQUE constraint failures** — fixture was `function`-scoped, so it tried to insert `CUST-001` / `TKT-001` on every test call; second call hit the UNIQUE constraint. Fixed by extracting seed logic into `_seed_once()` with a module-level `_seeded` bool guard.
+- **Multiple `TestClient` instances per test class** — early design had each test class that needed DB data creating its own `TestClient(app)` with its own `dependency_overrides`; the lifespan ran multiple times and `_create_test_db()` was called before models were fully registered. Fixed by consolidating all tests under one module-scoped `client` fixture.
+
+**Decisions / Notes:**
+- `POST /tickets/analyze` uses `def` (sync), not `async def` — FastAPI dispatches sync handlers to a thread pool; correct choice because `graph.invoke()` is synchronous LangGraph
+- Lazy imports inside route handlers (`from tools.classify_ticket_tool import classify_ticket` inside the function body) — avoids circular imports at module load time and keeps route files importable without side-effects
+- `StaticPool` is mandatory for SQLite in-memory test databases when multiple sessions need to share the same data — without it each connection is a completely separate database
+- `POST /tickets/history` returns `{"total_tickets": 0, "tickets": []}` for unknown customers rather than 404 — history absence is not an error
+- **Test count: 309 passed** (20 new Phase 10 tests; 1 pre-existing ChromaDB ordering failure unchanged)
+
+---
+
 ## Upcoming
 
 | Phase | Goal | Needs OpenAI? |
 |-------|------|--------------|
-| Phase 10 | FastAPI backend — `POST /tickets/analyze` + CRUD endpoints | No |
 | Phase 11 | Database CRUD + production PostgreSQL | No |
 | Phase 12 | Evaluation framework + Airflow DAG | Yes (LLM judge) |
 

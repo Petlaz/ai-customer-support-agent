@@ -339,15 +339,15 @@ Each tool must include:
 
 ### Endpoints
 
-- [ ] `POST /tickets/analyze`
-- [ ] `POST /tickets/classify`
-- [ ] `POST /tickets/respond`
-- [ ] `POST /tickets/route`
-- [ ] `POST /tickets/history`
-- [ ] `GET /tickets/{ticket_id}`
-- [ ] `GET /customers/{customer_id}`
-- [ ] `GET /health`
-- [ ] `GET /metrics`
+- [x] `POST /tickets/analyze`
+- [x] `POST /tickets/classify`
+- [x] `POST /tickets/respond`
+- [x] `POST /tickets/route`
+- [x] `POST /tickets/history`
+- [x] `GET /tickets/{ticket_id}`
+- [x] `GET /customers/{customer_id}`
+- [x] `GET /health`
+- [x] `GET /metrics`
 
 ### API Files
 

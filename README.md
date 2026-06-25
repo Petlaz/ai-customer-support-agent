@@ -140,10 +140,11 @@ pytest tests/ -v
 | `POST` | `/tickets/classify` | Classify a ticket only (no response generation) |
 | `POST` | `/tickets/respond` | Generate a response for a pre-classified ticket |
 | `POST` | `/tickets/route` | Determine routing for a ticket |
+| `POST` | `/tickets/history` | Retrieve prior ticket history for a customer |
 | `GET` | `/tickets/{ticket_id}` | Retrieve a stored ticket by ID |
-| `GET` | `/customers/{customer_id}` | Retrieve customer history |
-| `GET` | `/health` | Health check |
-| `GET` | `/metrics` | Prometheus-compatible metrics |
+| `GET` | `/customers/{customer_id}` | Retrieve customer record and recent tickets |
+| `GET` | `/health` | Liveness check — DB ping |
+| `GET` | `/metrics/` | Agent performance metrics (counts, cost, escalation rate) |
 
 Full API docs available at `http://localhost:8000/docs` (Swagger UI) when running locally.
 
@@ -196,8 +197,16 @@ ai-customer-support-agent/
 ├── Dockerfile
 ├── airflow.Dockerfile
 ├── docker-compose.yml
+├── main.py                          ← FastAPI entry point (Phase 10)
+├── alembic.ini
 │
-├── app/
+├── alembic/                         ← Alembic DB migrations
+│   ├── env.py
+│   ├── script.py.mako
+│   └── versions/
+│       └── 74ea40ee529d_initial_schema.py
+│
+├── app/                             ← Legacy lifecycle hooks & dependency helpers
 │   ├── __init__.py
 │   ├── main.py
 │   ├── dependencies.py
@@ -445,9 +454,11 @@ ai-customer-support-agent/
 
 | Module | Description |
 |--------|-------------|
+| `main.py` | FastAPI application entry point — lifespan, CORS middleware, router registration |
 | `docs/project_problem_definition.md` | Full Project Requirements Specification (PRS) — problem, objectives, architecture, tech stack |
 | `docs/project_checklist.md` | End-to-end implementation checklist tracking progress across all 21 phases |
-| `app/` | FastAPI application entry point, dependencies, and lifecycle hooks |
+| `app/` | Legacy lifecycle hooks and dependency helpers (pre-Phase 10) |
+| `alembic/` | Alembic database migrations (initial schema + future versions) |
 | `config/` | Settings management (Pydantic BaseSettings) and project-wide constants |
 | `api/` | API route handlers and Pydantic request/response schemas |
 | `agents/` | LangGraph agent graph, AgentState definition, prompts, and all graph nodes |
