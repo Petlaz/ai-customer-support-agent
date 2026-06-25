@@ -17,6 +17,13 @@ Use this checklist to track implementation progress across all project phases.
 - [x] Populate `pyproject.toml` with project metadata and tool config (Ruff, MyPy, Pytest)
 - [x] Copy `.env.example` → `.env` and fill in all required values:
   - [x] `OPENAI_API_KEY` — key set ✓ (add billing credits at platform.openai.com/settings/billing)
+
+  > **⚠ When OpenAI credits are resolved — do these 3 things in order:**
+  > 1. `python scripts/ingest_documents.py` — rebuilds `policy_documents` ChromaDB collection with real `text-embedding-3-small` vectors (currently uses random mock embeddings)
+  > 2. `python scripts/ingest_memory.py` — rebuilds `historical_tickets` ChromaDB collection with real embeddings
+  > 3. In `tests/test_retrieval.py`, remove the `@pytest.mark.skip` decorator from `TestRealEmbeddingRetrieval` (6 tests currently skipped)
+  >
+  > No code changes required — `rag/embeddings.py` auto-switches from mock to real on first call, and all LLM nodes (classify, draft, summarize) auto-switch from keyword/template fallbacks to real GPT-4o-mini responses.
   - [x] `ANTHROPIC_API_KEY` — key set ✓ (add billing credits at console.anthropic.com/settings/billing when ready)
   - [x] `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` — set and verified ✓
   - [x] `DATABASE_URL` — set to SQLite default ✓
