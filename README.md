@@ -2,7 +2,7 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-Petlaz%2Fai--customer--support--agent-blue?logo=github)](https://github.com/Petlaz/ai-customer-support-agent)
 
-A production-grade **Agentic AI Customer Support Platform** that automates customer support workflows using LangGraph, Retrieval-Augmented Generation (RAG), a three-layer memory system, Apache Airflow orchestration, and Langfuse observability.
+A production-grade **Agentic AI Customer Support Automation Platform** that automates customer support workflows using LangGraph, Retrieval-Augmented Generation (RAG), a three-layer memory system, Apache Airflow orchestration, and Langfuse observability.
 
 The agent classifies incoming tickets, retrieves company policies and customer history, drafts grounded responses, routes tickets to the correct department, and escalates complex cases to human agents — all with full traceability.
 
