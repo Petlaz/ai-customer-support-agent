@@ -709,3 +709,154 @@ class TestZendeskMockTool:
         })
 
         assert {"zendesk_id", "url", "created", "created_at"} <= set(result.keys())
+
+
+# ---------------------------------------------------------------------------
+# Real LLM integration tests — require live OpenAI credits
+# Activated 2026-06-25 after billing credits confirmed.
+# ---------------------------------------------------------------------------
+
+@pytest.mark.integration
+class TestLLMToolsWithRealOpenAI:
+    """Integration tests that call GPT-4o-mini directly (no mocks).
+
+    These tests verify that the three LLM-backed tools produce meaningful
+    output with real OpenAI credits, replacing the previous fallback paths.
+
+    Run with: pytest tests/test_tools.py -m integration -v
+    """
+
+    def test_classify_ticket_returns_nonzero_confidence(self):
+        """Real LLM call must return confidence > 0.0 (not keyword fallback)."""
+        from tools.classify_ticket_tool import classify_ticket
+
+        result = classify_ticket.invoke({
+            "subject": "I was charged twice this month",
+            "message": "My bank statement shows two identical charges of $49.99 from Nexus Software on June 1st. I only have one subscription. Please investigate and refund the duplicate.",
+        })
+
+        assert result["confidence_score"] > 0.0, (
+            f"Expected real confidence > 0.0, got {result['confidence_score']} — "
+            "keyword fallback may be active (check OpenAI credits)"
+        )
+        assert result["classification"] in [c.value for c in TicketCategory]
+        assert isinstance(result["reasoning"], str) and len(result["reasoning"]) > 0
+
+    def test_classify_ticket_billing_category(self):
+        """A clear billing message should be classified as Billing or Refund."""
+        from tools.classify_ticket_tool import classify_ticket
+
+        result = classify_ticket.invoke({
+            "subject": "Incorrect charge on my account",
+            "message": "I was charged $99 but my plan is $49 per month. Please correct my invoice.",
+        })
+
+        assert result["classification"] in (
+            TicketCategory.BILLING.value,
+            TicketCategory.REFUND.value,
+        ), f"Expected Billing or Refund, got: {result['classification']}"
+        assert result["confidence_score"] > 0.5
+
+    def test_classify_ticket_technical_category(self):
+        """A login/technical message should be classified as Technical Support or Account Access."""
+        from tools.classify_ticket_tool import classify_ticket
+
+        result = classify_ticket.invoke({
+            "subject": "Cannot log in — 401 error",
+            "message": "I keep getting an 'invalid credentials' error when I try to log into the Nexus dashboard. I reset my password twice already.",
+        })
+
+        assert result["classification"] in (
+            TicketCategory.TECHNICAL_SUPPORT.value,
+            TicketCategory.ACCOUNT_ACCESS.value,
+        ), f"Expected Technical Support or Account Access, got: {result['classification']}"
+
+    def test_draft_response_is_personalised_not_fallback(self):
+        """Real LLM draft must not be the static fallback template."""
+        from tools.draft_response_tool import draft_response, _FALLBACK_DRAFT
+
+        result = draft_response.invoke({
+            "subject": "Refund for cancelled subscription",
+            "message": "I cancelled my annual subscription last week but have not received my refund yet. It has been 7 days.",
+            "classification": "Refund",
+            "policy_context": "Refunds are processed within 5-7 business days of cancellation approval.",
+            "similar_cases": "",
+            "customer_history": "",
+        })
+
+        assert result["draft"] != _FALLBACK_DRAFT, (
+            "draft_response returned the static fallback — LLM call may have failed"
+        )
+        assert len(result["draft"]) > 50
+        assert result["tokens_used"] > 0
+        assert result["cost_usd"] > 0.0
+
+    def test_draft_response_references_policy(self):
+        """The draft should incorporate policy context when provided."""
+        from tools.draft_response_tool import draft_response
+
+        result = draft_response.invoke({
+            "subject": "When will I get my refund?",
+            "message": "I cancelled my subscription 3 days ago and want to know when the refund will appear.",
+            "classification": "Refund",
+            "policy_context": "Refunds are processed within 5-7 business days.",
+        })
+
+        # The response should mention a time frame (days)
+        assert any(word in result["draft"].lower() for word in ["day", "business", "refund", "process"]), (
+            f"Draft does not appear to reference policy context: {result['draft'][:200]}"
+        )
+
+    def test_draft_response_token_counts_are_reasonable(self):
+        """Token usage should be within plausible bounds for gpt-4o-mini."""
+        from tools.draft_response_tool import draft_response
+
+        result = draft_response.invoke({
+            "subject": "Billing question",
+            "message": "What payment methods do you accept?",
+            "classification": "Billing",
+        })
+
+        assert 10 < result["tokens_used"] < 2000, (
+            f"tokens_used={result['tokens_used']} is outside expected range"
+        )
+        assert result["cost_usd"] < 0.01, (
+            f"cost_usd={result['cost_usd']} seems too high for a short message"
+        )
+
+    def test_summarize_ticket_not_template(self):
+        """Real LLM summary should not be the formatted template fallback."""
+        from tools.summarize_ticket_tool import summarize_ticket
+
+        result = summarize_ticket.invoke({
+            "subject": "Double charge on my account",
+            "classification": "Billing",
+            "customer_id": "C001",
+            "routing_decision": "Billing Team",
+            "escalated": False,
+            "draft_response": "We apologise for the inconvenience and will process your refund within 5 business days.",
+        })
+
+        fallback = "Billing ticket from customer C001 re: Double charge on my account. Routed to Billing Team."
+        assert result["summary"] != fallback, (
+            "summarize_ticket returned the template fallback — LLM call may have failed"
+        )
+        assert len(result["summary"]) > 20
+
+    def test_summarize_ticket_is_concise(self):
+        """The summary should be a short single sentence, not a paragraph."""
+        from tools.summarize_ticket_tool import summarize_ticket
+
+        result = summarize_ticket.invoke({
+            "subject": "Login error",
+            "classification": "Technical Support",
+            "customer_id": "C002",
+            "routing_decision": "Technical Support Team",
+            "escalated": False,
+        })
+
+        # A one-sentence summary should not be excessively long
+        assert len(result["summary"]) < 400, (
+            f"Summary is too long ({len(result['summary'])} chars): {result['summary']}"
+        )
+

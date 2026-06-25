@@ -32,3 +32,6 @@ python_files = ["test_*.py"]
 python_functions = ["test_*"]
 # addopts intentionally omitted — pass coverage flags explicitly:
 #   pytest --cov=. --cov-report=term-missing --cov-omit="tests/*,scripts/*"
+markers = [
+    "integration: tests that make live API calls (require OpenAI credits)",
+]
