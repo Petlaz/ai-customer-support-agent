@@ -301,11 +301,11 @@ Smoke test: load_memory(db, ticket) → MemoryContext with 1 ticket, 0 similar c
 
 Each tool must include:
 
-- [ ] Input schema (Pydantic)
-- [ ] Output schema (Pydantic)
-- [ ] Error handling
-- [ ] Logging
-- [ ] Unit tests
+- [x] Input schema (Pydantic)
+- [x] Output schema (Pydantic)
+- [x] Error handling
+- [x] Logging
+- [x] Unit tests (`tests/test_tools.py` — 42 tests, all passing)
 
 ---
 

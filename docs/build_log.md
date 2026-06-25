@@ -156,16 +156,58 @@ Concise record of what worked, what did not work, and key decisions per phase.
 
 ---
 
+## Phase 8 — Define Agent Tools [DONE]
+**2026-06-25**
+
+**What worked:**
+- `tools/classify_ticket_tool.py` — `@tool classify_ticket`; `ClassifyTicketInput/Output`; `ChatOpenAI.with_structured_output(ClassificationOutput)` chain; keyword fallback (confidence=0.0) on LLM failure
+- `tools/retrieve_policy_tool.py` — `@tool retrieve_policy`; wraps `retrieve_policy_chunks` + `format_context`; returns formatted text + chunk count
+- `tools/retrieve_memory_tool.py` — `@tool retrieve_memory`; lazy `SessionLocal()` inside function body; returns `CustomerHistory` fields as plain dict
+- `tools/retrieve_similar_cases_tool.py` — `@tool retrieve_similar_cases`; wraps `semantic_memory.retrieve_similar`; converts ChromaDB distance → similarity score via `1/(1+distance)`
+- `tools/route_ticket_tool.py` — `@tool route_ticket`; pure `CATEGORY_TO_DEPARTMENT` lookup; no I/O; defaults to `CUSTOMER_SUCCESS_TEAM`
+- `tools/draft_response_tool.py` — `@tool draft_response`; `DRAFT_RESPONSE_PROMPT | ChatOpenAI` chain; calls `_extract_token_usage` + `estimate_cost`; static template fallback
+- `tools/summarize_ticket_tool.py` — `@tool summarize_ticket`; `SUMMARIZE_PROMPT | ChatOpenAI` chain; formatted template fallback
+- `tools/escalate_to_human_tool.py` — `@tool escalate_to_human`; calls `save_escalation(db, ...)`; returns escalation_id + `HUMAN_REVIEW_QUEUE`
+- `tools/log_decision_tool.py` — `@tool log_decision`; calls `log_agent_decision(db, ...)`; returns log_id + timestamp
+- `tools/send_email_tool.py` — `@tool send_email`; mock SMTP; returns fake `msg-<uuid>` message_id
+- `tools/create_jira_ticket_tool.py` — `@tool create_jira_ticket`; mock Jira REST; returns `SUP-<randint>` ID + URL
+- `tools/slack_notification_tool.py` — `@tool slack_notification`; mock Slack Web API; returns channel + ISO timestamp
+- `tools/zendesk_mock_tool.py` — `@tool create_zendesk_ticket`; mock Zendesk REST; returns 6-digit ID + URL
+- `tests/test_tools.py` — 42 tests, all passing; LLM tools mocked via `patch("langchain_openai.ChatOpenAI")`; DB tools mocked via `patch("database.session.SessionLocal")` + function-level patches; mock tools called directly
+- Full suite: 203 passed, 6 skipped, 1 pre-existing ChromaDB order issue (unchanged from Phase 7)
+
+**What did not work:**
+- Nothing failed in this phase
+
+**Decisions / Notes:**
+- All `@tool` functions use lazy `from langchain_openai import ChatOpenAI` / `from database.session import SessionLocal` inside the function body — allows clean patching in tests without circular imports
+- DB write tools (escalate_to_human, log_decision, retrieve_memory) all use `try/finally db.close()` — session is always released even on error
+- Mock tools (send_email, jira, slack, zendesk) log at INFO with `[MOCK]` prefix — easy to grep in dev; bodies are intentionally minimal stubs to replace with real SDK calls
+
+**OpenAI credits required for full tool validation:**
+
+| Tool | What runs with credits | Current fallback |
+|------|----------------------|-----------------|
+| `classify_ticket_tool.py` | `ChatOpenAI.with_structured_output(ClassificationOutput)` returns a real category + confidence score | `_keyword_classify` returns category with `confidence_score=0.0` → auto-escalates every ticket |
+| `draft_response_tool.py` | `DRAFT_RESPONSE_PROMPT \| ChatOpenAI` returns a personalised customer response | Static `"Thank you for contacting Nexus Software Support..."` template |
+| `summarize_ticket_tool.py` | `SUMMARIZE_PROMPT \| ChatOpenAI` returns a meaningful one-sentence audit summary | `"{classification} ticket from {customer_id} re: {subject}. Routed to {routing_decision}."` template |
+
+When OpenAI credits are restored:
+1. Remove LLM mocks from the three test classes above and run as real integration tests
+2. Verify `classify_ticket_tool` returns `confidence_score > 0.0` and does not fall back to keyword classifier
+3. Verify `draft_response_tool` returns a coherent, policy-grounded response (not the static fallback)
+4. Verify `summarize_ticket_tool` returns a meaningful summary (not the formatted template)
+5. Check token counts and cost estimates logged in `audit_log` are reasonable for `gpt-4o-mini`
+
+---
+
 ## Upcoming
 
 | Phase | Goal | Needs OpenAI? |
 |-------|------|--------------|
-| Phase 7 | LangGraph agent graph — classify, retrieve, draft, route, escalate | Yes (LLM calls) |
-| Phase 8 | Agent tools — classify_ticket, retrieve_policy, check_escalation | Yes |
-| Phase 9 | Human-in-the-loop — escalation queue, human review | No |
-| Phase 6 | Memory layer — short-term, long-term, semantic | No |
-| Phase 7 | LangGraph agent graph | Yes |
-| Phase 8 | Agent tools | Yes |
-
+| Phase 9 | Human-in-the-loop — escalation queue, human reviewer payload | No |
+| Phase 10 | FastAPI backend — `POST /tickets/analyze` + CRUD endpoints | No |
+| Phase 11 | Database CRUD + production PostgreSQL | No |
+| Phase 12 | Evaluation framework + Airflow DAG | Yes (LLM judge) |
 
 
