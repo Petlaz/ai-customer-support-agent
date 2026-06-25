@@ -77,6 +77,17 @@ ESCALATION_KEYWORDS: list[str] = [
 
 # ── LLM Generation Config ─────────────────────────────────────────────────────
 
+# ── Escalation Thresholds ─────────────────────────────────────────────────────
+
+# Monetary amount (USD) above which a refund/billing ticket is auto-escalated.
+HIGH_VALUE_REFUND_THRESHOLD: float = 500.0
+
+# Word count below which a message is treated as ambiguous / unclear.
+AMBIGUOUS_MESSAGE_WORD_THRESHOLD: int = 5
+
+
+# ── LLM Generation Config ─────────────────────────────────────────────────────
+
 TEMPERATURE = 0.2           # Low = consistent, factual responses
 MAX_RESPONSE_TOKENS = 1024  # Max tokens for customer-facing response
 MAX_SUMMARY_TOKENS = 256    # Max tokens for ticket summary

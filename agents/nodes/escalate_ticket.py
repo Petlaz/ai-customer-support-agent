@@ -1,34 +1,26 @@
 """escalate_ticket node — packages the ticket for human review.
 
-Determines the escalation reason (low confidence or keyword trigger),
-sets escalation_required=True, and routes to the human review queue.
+Determines the escalation reason using the full trigger pipeline in
+`agents.confidence`, sets escalation_required=True, routes to the human
+review queue, and stores a complete EscalationPayload snapshot in state.
 """
 import logging
 
-from agents.confidence import check_escalation_keywords, meets_threshold
+from agents.confidence import determine_escalation_reason
 from agents.state import AgentState
+from api.schemas.escalation_schema import EscalationPayload
 from config.constants import Department
 
 logger = logging.getLogger(__name__)
 
 
 def escalate_ticket_node(state: AgentState) -> dict:
-    """Build escalation payload and mark the ticket for human review."""
+    """Build a full EscalationPayload and mark the ticket for human review."""
     ticket = state["ticket"]
-    confidence = float(state.get("confidence_score", 0.0))
 
-    # Determine escalation reason
-    combined_text = f"{ticket.subject} {ticket.message}"
-    keyword_triggered, matched_keyword = check_escalation_keywords(combined_text)
-
-    if keyword_triggered:
-        reason = f"Escalation keyword detected: '{matched_keyword}'"
-    elif not meets_threshold(confidence):
-        reason = (
-            f"Low confidence score {confidence:.2f} "
-            f"(threshold {__import__('config.settings', fromlist=['settings']).settings.confidence_threshold:.2f})"
-        )
-    else:
+    # Use the full trigger pipeline to determine escalation reason
+    _, reason = determine_escalation_reason(state)
+    if not reason:
         reason = "Manual escalation triggered by agent logic"
 
     logger.warning(
@@ -37,10 +29,27 @@ def escalate_ticket_node(state: AgentState) -> dict:
         reason,
     )
 
+    # Build the structured payload the human reviewer will receive
+    payload = EscalationPayload(
+        ticket_id=ticket.ticket_id,
+        customer_id=ticket.customer_id,
+        subject=ticket.subject,
+        message=ticket.message,
+        reason=reason,
+        confidence_score=float(state.get("confidence_score", 0.0)),
+        classification=state.get("classification", ""),
+        customer_history=state.get("customer_history", []),
+        similar_cases=state.get("similar_cases", []),
+        retrieved_policies=state.get("retrieved_policies", []),
+        draft_response=state.get("draft_response", ""),
+        priority="high",
+    )
+
     return {
         "escalation_required": True,
         "escalation_reason": reason,
         "routing_decision": Department.HUMAN_REVIEW_QUEUE.value,
+        "escalation_payload": payload.model_dump(),
         "audit_log": {
             **state.get("audit_log", {}),
             "escalation_required": True,

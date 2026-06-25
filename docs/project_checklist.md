@@ -315,21 +315,21 @@ Each tool must include:
 
 ### Escalation Triggers
 
-- [ ] Low confidence score
-- [ ] Missing policy information
-- [ ] Legal concern detected
-- [ ] Compliance issue detected
-- [ ] High-value refund request
-- [ ] Sensitive customer data detected
-- [ ] Ambiguous / unclear request
+- [x] Low confidence score
+- [x] Missing policy information
+- [x] Legal concern detected
+- [x] Compliance issue detected
+- [x] High-value refund request
+- [x] Sensitive customer data detected
+- [x] Ambiguous / unclear request
 
 ### Escalation Payload
 
-- [ ] Customer history
-- [ ] Similar tickets
-- [ ] Retrieved policies
-- [ ] Draft response
-- [ ] Confidence score
+- [x] Customer history
+- [x] Similar tickets
+- [x] Retrieved policies
+- [x] Draft response
+- [x] Confidence score
 
 ---
 

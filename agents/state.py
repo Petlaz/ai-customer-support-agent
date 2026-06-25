@@ -29,7 +29,7 @@ class AgentState(TypedDict):
     routing_decision: str               # Department value
     escalation_required: bool
     escalation_reason: str
-
+    escalation_payload: dict            # EscalationPayload snapshot for human reviewer
     # ── Output ─────────────────────────────────────────────────────────────────
     summary: str
     audit_log: dict
