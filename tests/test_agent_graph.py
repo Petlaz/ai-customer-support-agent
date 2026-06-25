@@ -593,7 +593,10 @@ class TestFullGraphIntegration:
 
         return mock_classify_llm, mock_text_llm
 
-    @patch("langfuse.Langfuse")
+    @patch("observability.langfuse_client.create_trace", return_value="test-trace-id")
+    @patch("observability.langfuse_client.add_retrieval_span")
+    @patch("observability.langfuse_client.update_trace")
+    @patch("observability.langfuse_client.get_callback_handler", return_value=None)
     @patch("agents.nodes.store_memory.SessionLocal")
     @patch("agents.nodes.retrieve_long_term_memory.SessionLocal")
     @patch("agents.nodes.retrieve_semantic_memory.retrieve_similar")
@@ -610,9 +613,12 @@ class TestFullGraphIntegration:
         mock_format_ctx,
         mock_retrieve_policy,
         mock_retrieve_similar,
-        MockStoreSL,
         MockMemorySL,
-        MockLangfuse,
+        MockStoreSL,
+        mock_get_handler,
+        mock_update_trace,
+        mock_add_span,
+        mock_create_trace,
         billing_ticket,
     ):
         """Full graph: high-confidence billing ticket should route (not escalate)."""
@@ -655,7 +661,10 @@ class TestFullGraphIntegration:
         assert len(result["draft_response"]) > 0
         assert len(result["summary"]) > 0
 
-    @patch("langfuse.Langfuse")
+    @patch("observability.langfuse_client.create_trace", return_value="test-trace-id")
+    @patch("observability.langfuse_client.add_retrieval_span")
+    @patch("observability.langfuse_client.update_trace")
+    @patch("observability.langfuse_client.get_callback_handler", return_value=None)
     @patch("agents.nodes.store_memory.SessionLocal")
     @patch("agents.nodes.retrieve_long_term_memory.SessionLocal")
     @patch("agents.nodes.retrieve_semantic_memory.retrieve_similar")
@@ -672,9 +681,12 @@ class TestFullGraphIntegration:
         mock_format_ctx,
         mock_retrieve_policy,
         mock_retrieve_similar,
-        MockStoreSL,
         MockMemorySL,
-        MockLangfuse,
+        MockStoreSL,
+        mock_get_handler,
+        mock_update_trace,
+        mock_add_span,
+        mock_create_trace,
         escalation_ticket,
     ):
         """Full graph: keyword-trigger ticket should escalate."""
@@ -724,7 +736,10 @@ class TestFullGraphIntegration:
         assert result["routing_decision"] == Department.HUMAN_REVIEW_QUEUE.value
         assert len(result["escalation_reason"]) > 0
 
-    @patch("langfuse.Langfuse")
+    @patch("observability.langfuse_client.create_trace", return_value="test-trace-id")
+    @patch("observability.langfuse_client.add_retrieval_span")
+    @patch("observability.langfuse_client.update_trace")
+    @patch("observability.langfuse_client.get_callback_handler", return_value=None)
     @patch("agents.nodes.store_memory.SessionLocal")
     @patch("agents.nodes.retrieve_long_term_memory.SessionLocal")
     @patch("agents.nodes.retrieve_semantic_memory.retrieve_similar")
@@ -741,9 +756,12 @@ class TestFullGraphIntegration:
         mock_format_ctx,
         mock_retrieve_policy,
         mock_retrieve_similar,
-        MockStoreSL,
         MockMemorySL,
-        MockLangfuse,
+        MockStoreSL,
+        mock_get_handler,
+        mock_update_trace,
+        mock_add_span,
+        mock_create_trace,
         billing_ticket,
     ):
         """Full graph: when all LLMs fail, the graph must not crash.

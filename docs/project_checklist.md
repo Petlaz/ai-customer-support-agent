@@ -269,15 +269,15 @@ Smoke test: load_memory(db, ticket) → MemoryContext with 1 ticket, 0 similar c
 
 ### Langfuse Integration
 
-- [ ] Trace workflow execution
-- [ ] Trace tool calls
-- [ ] Trace prompts
-- [ ] Trace retrieved documents
-- [ ] Trace retrieved memories
-- [ ] Trace agent decisions
-- [ ] Track token usage
-- [ ] Track latency
-- [ ] Track cost
+- [x] Trace workflow execution — `receive_ticket` creates trace; `log_decision` finalises it
+- [x] Trace tool calls — `CallbackHandler` in classify, draft, summarize nodes auto-traces all LLM calls
+- [x] Trace prompts — `CallbackHandler` captures full prompt text and completion for every LLM call
+- [x] Trace retrieved documents — `retrieve_policy` adds a retrieval span with query + top-N chunks
+- [x] Trace retrieved memories — `retrieve_semantic_memory` adds a retrieval span with similarity scores
+- [x] Trace agent decisions — `log_decision` adds routing/escalation span with confidence + reason
+- [x] Track token usage — `draft_response` and `summarize_ticket` extract `response_metadata.token_usage`; totals in `audit_log`
+- [x] Track latency — captured automatically by `CallbackHandler` per LLM call
+- [x] Track cost — `observability/langfuse_client.estimate_cost()` (GPT-4o-mini: $0.15/1M input, $0.60/1M output); totals in `audit_log`
 
 ---
 
