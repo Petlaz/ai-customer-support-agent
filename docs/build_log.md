@@ -234,11 +234,35 @@ Concise record of what worked, what did not work, and key decisions per phase.
 
 ---
 
+## Phase 11 — Database CRUD Layer [DONE]
+**2026-06-25**
+
+**What worked:**
+- `database/crud.py` — 10 functions implemented as a thin, session-scoped DB layer: `get_customer`, `get_or_create_customer`, `get_ticket`, `create_ticket` (idempotent), `update_ticket_classification`, `update_ticket_status`, `get_customer_history`, `create_escalation`, `get_escalation`, `create_agent_log`, `create_evaluation_result`, `get_evaluation_results`
+- `create_ticket` auto-creates a parent `Customer` row if one doesn't exist (delegates to `get_or_create_customer`) — no FK violation possible
+- `create_ticket` is idempotent: returns existing row unchanged if `ticket_id` already exists
+- `agents/nodes/store_memory.py` — added `upsert_ticket(db, ticket)` call before `update_ticket_outcome()`; fixes a silent bug where the node tried to update a ticket that had never been inserted (the `receive_ticket` → `retrieve_long_term_memory` path did not persist the row)
+- `api/routes/tickets.py` — `GET /{ticket_id}` and `POST /history` now use `crud.get_ticket()` and `crud.get_customer_history()` instead of inline ORM queries
+- `api/routes/customers.py` — `GET /{customer_id}` now uses `crud.get_customer()` and `crud.get_customer_history()`
+- `tests/test_crud.py` — 30 tests covering all functions: create, get, idempotency, defaults, limit enforcement, and None-return for missing records
+- **Test count: 339 passed** (30 new Phase 11 CRUD tests; 1 pre-existing ChromaDB ordering failure unchanged)
+
+**What did not work:**
+- Nothing failed in this phase; all 30 tests passed first run
+
+**Decisions / Notes:**
+- `database/crud.py` is intentionally a thin layer (no business logic) — the `memory/` modules keep their own higher-level wrappers and are not replaced; the API routes use `crud` directly
+- The upsert gap in `store_memory_node` was a pre-existing bug introduced in Phase 7 — `update_ticket_outcome()` logged a warning and returned `None` silently; `log_agent_decision()` then wrote an `agent_logs` row with a dangling FK (SQLite doesn't enforce FK constraints by default, so it never raised an error)
+- All CRUD functions accept `Session` as the first argument — callers control transaction scope; functions commit and refresh internally after each write
+- Production PostgreSQL is not yet deployed — `DATABASE_URL` switches automatically from SQLite to PostgreSQL by updating `.env`; Alembic migration `74ea40ee529d_initial_schema.py` covers the full schema
+
+---
+
 ## Upcoming
 
 | Phase | Goal | Needs OpenAI? |
 |-------|------|--------------|
-| Phase 11 | Database CRUD + production PostgreSQL | No |
-| Phase 12 | Evaluation framework + Airflow DAG | Yes (LLM judge) |
+| Phase 12 | Gradio UI — ticket submission + agent output view | No |
+| Phase 13 | Evaluation framework + Airflow DAG | Yes (LLM judge) |
 
 

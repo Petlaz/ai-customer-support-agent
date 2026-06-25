@@ -2,7 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from database.models import Customer, Ticket
+from database import crud
 from database.session import get_db
 
 router = APIRouter()
@@ -11,16 +11,10 @@ router = APIRouter()
 @router.get("/{customer_id}", summary="Fetch a customer record with recent ticket history")
 def get_customer(customer_id: str, db: Session = Depends(get_db)):
     """Return the customer record and their last 20 tickets."""
-    customer = db.query(Customer).filter_by(customer_id=customer_id).first()
+    customer = crud.get_customer(db, customer_id)
     if not customer:
         raise HTTPException(status_code=404, detail=f"Customer '{customer_id}' not found")
-    tickets = (
-        db.query(Ticket)
-        .filter_by(customer_id=customer_id)
-        .order_by(Ticket.created_at.desc())
-        .limit(20)
-        .all()
-    )
+    tickets = crud.get_customer_history(db, customer_id, limit=20)
     return {
         "customer_id": customer.customer_id,
         "name": customer.name,

@@ -380,6 +380,7 @@ ai-customer-support-agent/
 │   ├── test_api.py
 │   ├── test_agent_graph.py
 │   ├── test_classification.py
+│   ├── test_crud.py
 │   ├── test_retrieval.py
 │   ├── test_memory.py
 │   ├── test_tools.py

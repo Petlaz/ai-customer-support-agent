@@ -2,6 +2,7 @@
 
 Called after summarize_ticket (the last step before log_decision).
 Writes:
+  - ticket row (upsert — ensures it exists before updating)
   - ticket outcome (classification, routing, status)
   - agent decision log row (agent_logs table)
   - escalation record (if escalation_required)
@@ -17,6 +18,7 @@ from memory.ticket_memory import (
     log_agent_decision,
     save_escalation,
     update_ticket_outcome,
+    upsert_ticket,
 )
 
 logger = logging.getLogger(__name__)
@@ -34,6 +36,9 @@ def store_memory_node(state: AgentState) -> dict:
 
     db = SessionLocal()
     try:
+        # Ensure the ticket row exists before any FK-dependent writes
+        upsert_ticket(db, ticket)
+
         update_ticket_outcome(
             db,
             ticket_id=ticket.ticket_id,

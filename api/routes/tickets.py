@@ -15,7 +15,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from api.schemas.ticket_schema import TicketInput, TicketResponse
-from database.models import Customer, Ticket
+from database import crud
 from database.session import get_db
 from config.settings import settings
 
@@ -164,7 +164,7 @@ def route_ticket_endpoint(body: RouteRequest):
 @router.post("/history", summary="Retrieve a customer’s prior ticket history")
 def get_ticket_history(body: HistoryRequest, db: Session = Depends(get_db)):
     """Return the full ticket history for a customer from the database."""
-    customer = db.query(Customer).filter_by(customer_id=body.customer_id).first()
+    customer = crud.get_customer(db, body.customer_id)
     if not customer:
         return {
             "customer_id": body.customer_id,
@@ -172,13 +172,7 @@ def get_ticket_history(body: HistoryRequest, db: Session = Depends(get_db)):
             "total_tickets": 0,
             "previous_escalations": 0,
         }
-    tickets = (
-        db.query(Ticket)
-        .filter_by(customer_id=body.customer_id)
-        .order_by(Ticket.created_at.desc())
-        .limit(body.limit)
-        .all()
-    )
+    tickets = crud.get_customer_history(db, body.customer_id, limit=body.limit)
     escalations = sum(1 for t in tickets if t.status == "escalated")
     return {
         "customer_id": body.customer_id,
@@ -203,7 +197,7 @@ def get_ticket_history(body: HistoryRequest, db: Session = Depends(get_db)):
 @router.get("/{ticket_id}", summary="Fetch a ticket record by ID")
 def get_ticket(ticket_id: str, db: Session = Depends(get_db)):
     """Return the stored ticket record for the given ticket_id."""
-    ticket = db.query(Ticket).filter_by(ticket_id=ticket_id).first()
+    ticket = crud.get_ticket(db, ticket_id)
     if not ticket:
         raise HTTPException(status_code=404, detail=f"Ticket '{ticket_id}' not found")
     return {

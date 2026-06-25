@@ -372,7 +372,7 @@ Each tool must include:
 
 ### Local Development
 
-- [ ] SQLite — configured in Phase 3b ✓
+- [x] SQLite — configured in Phase 3b ✓
 
 ### Production
 
@@ -383,23 +383,23 @@ Each tool must include:
 ### CRUD Operations
 
 - [x] `database/crud.py` — CRUD operations file created
-- [ ] `create_ticket()` — insert new ticket
-- [ ] `get_ticket()` — fetch by ticket_id
-- [ ] `get_customer_history()` — fetch all tickets for a customer
-- [ ] `create_escalation()` — insert escalation record
-- [ ] `create_agent_log()` — insert audit log entry
-- [ ] `create_evaluation_result()` — insert eval result
+- [x] `create_ticket()` — insert new ticket
+- [x] `get_ticket()` — fetch by ticket_id
+- [x] `get_customer_history()` — fetch all tickets for a customer
+- [x] `create_escalation()` — insert escalation record
+- [x] `create_agent_log()` — insert audit log entry
+- [x] `create_evaluation_result()` — insert eval result
 
 ### Tables (implemented in Phase 3b)
 
-- [ ] Customers ✓ (model in Phase 3b)
-- [ ] Tickets ✓ (model in Phase 3b)
-- [ ] Conversations ✓ (model in Phase 3b)
-- [ ] Responses ✓ (model in Phase 3b)
-- [ ] Routing decisions ✓ (model in Phase 3b)
-- [ ] Escalations ✓ (model in Phase 3b)
-- [ ] Agent logs ✓ (model in Phase 3b)
-- [ ] Evaluation results ✓ (model in Phase 3b)
+- [x] Customers ✓ (model in Phase 3b)
+- [x] Tickets ✓ (model in Phase 3b)
+- [x] Conversations ✓ (model in Phase 3b)
+- [x] Responses ✓ (model in Phase 3b)
+- [x] Routing decisions ✓ (model in Phase 3b)
+- [x] Escalations ✓ (model in Phase 3b)
+- [x] Agent logs ✓ (model in Phase 3b)
+- [x] Evaluation results ✓ (model in Phase 3b)
 
 ---
 
