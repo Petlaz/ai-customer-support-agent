@@ -258,11 +258,39 @@ Concise record of what worked, what did not work, and key decisions per phase.
 
 ---
 
+## Phase 12 — Gradio Demo UI [DONE]
+**2026-06-25**
+
+**What worked:**
+- `frontend/gradio_app.py` — full `gr.Blocks` UI with two-column layout: submit form on the left, seven-tab output panel on the right
+- Seven output tabs implemented and wired: Decision, Response, Summary, Retrieved Policies, Customer Memory, Similar Cases, Langfuse Trace
+- `analyze_ticket()` — lazy-loads `build_graph()` on first request; builds `TicketInput`, constructs a clean initial `AgentState` dict, calls `graph.invoke()` synchronously, then formats all state fields into HTML for each panel
+- Auto-generated Ticket ID (`TKT-{timestamp}`) and Customer ID (`CUST-DEMO-{hex}`) when fields are left blank
+- HTML output helpers: `_badge()` (coloured pill spans), `_conf_bar()` (CSS progress bar, colour-coded green/amber/red by threshold), `_kv_table()` (striped key-value table), `_section()` (labelled card wrapper)
+- Styled decision panel: classification, confidence bar, routing, escalation badge, priority badge, channel, token count, cost, ticket ID, customer ID
+- Escalation section rendered only when `escalation_required=True` and `escalation_payload` is non-empty
+- Validation returns an amber-styled HTML warning banner; agent exceptions return a red error banner
+- Custom CSS: gradient blue header (`#1e3a5f → #2563eb`), card panels with `#f8fafc` background + border, professional tab strip, shadow button
+- `theme` and `css` moved to `launch()` — resolves Gradio 6.0 deprecation warning
+- `tests/test_gradio_app.py` — 22 tests, all pass: mocked graph via `MagicMock`, validation, all seven output panels, auto-ID generation, escalation badge, trace placeholder
+
+**What did not work:**
+- **Emoji stripping regex collapsed indentation** — the cleanup script used `re.sub(r'  +', ' ', text)` which flattened all Python block indentation to 1 space; both files were rewritten from scratch with correct 4-space indentation; Unicode box characters (`█`, `░`) replaced with ASCII `#`/`-`
+- **`theme`/`css` on `gr.Blocks()`** — Gradio 6.0 moved these parameters to `launch()`; passing them to `Blocks()` raised a `UserWarning`; fixed by moving both to `demo.launch()`
+
+**Decisions / Notes:**
+- Gradio app invokes the LangGraph agent directly (no FastAPI server required) — suitable for local demos and manual testing without running `uvicorn`
+- `_get_graph()` lazy-loads once and caches in module-level `_graph`; subsequent requests reuse the compiled graph
+- All seven output components use `gr.HTML` (not `gr.Markdown`) — allows full inline CSS styling without Gradio's markdown sanitiser stripping style attributes
+- Confidence bar colour thresholds: ≥80% green (`#16a34a`), ≥50% amber (`#d97706`), below 50% red (`#dc2626`)
+- **Test count: 361 passed** (22 new Phase 12 tests; 1 pre-existing ChromaDB ordering failure unchanged)
+
+---
+
 ## Upcoming
 
 | Phase | Goal | Needs OpenAI? |
 |-------|------|--------------|
-| Phase 12 | Gradio UI — ticket submission + agent output view | No |
 | Phase 13 | Evaluation framework + Airflow DAG | Yes (LLM judge) |
 
 

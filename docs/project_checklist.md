@@ -411,15 +411,22 @@ Each tool must include:
 
 ### UI Features
 
-- [ ] Submit ticket form
-- [ ] View agent workflow output
-- [ ] View retrieved policies
-- [ ] View retrieved memories
-- [ ] View similar tickets
-- [ ] View routing decision
-- [ ] View escalation decision
-- [ ] View Langfuse trace link
-- [ ] View confidence score
+- [x] Submit ticket form (ticket_id, customer_id, subject, message, channel, priority)
+- [x] View agent workflow output (classification, response, routing, escalation)
+- [x] View retrieved policies
+- [x] View retrieved memories (customer ticket history)
+- [x] View similar tickets (semantic search results)
+- [x] View routing decision
+- [x] View escalation decision (badge + reason)
+- [x] View Langfuse trace link
+- [x] View confidence score (HTML progress bar, colour-coded)
+
+### Styling
+
+- [x] Custom CSS — gradient header, blue/gray palette, card panels
+- [x] HTML output panels — styled tables, badge pills, confidence bars, similarity bars
+- [x] Validation and error messages — styled amber/red alert banners
+- [x] 22 tests in `tests/test_gradio_app.py` — all pass
 
 ---
 

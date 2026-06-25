@@ -206,12 +206,6 @@ ai-customer-support-agent/
 │   └── versions/
 │       └── 74ea40ee529d_initial_schema.py
 │
-├── app/                             ← Legacy lifecycle hooks & dependency helpers
-│   ├── __init__.py
-│   ├── main.py
-│   ├── dependencies.py
-│   └── lifecycle.py
-│
 ├── config/
 │   ├── __init__.py
 │   ├── settings.py
@@ -340,9 +334,9 @@ ai-customer-support-agent/
 │   ├── cloudwatch.py
 │   └── dashboard_config.py
 │
-├── frontend/
+├── frontend/                        ← Gradio demo UI (Phase 12) — submit tickets, view full agent output
 │   ├── __init__.py
-│   └── gradio_app.py
+│   └── gradio_app.py                ← gr.Blocks UI: 6-field form, 7-tab output, custom CSS
 │
 ├── data/
 │   ├── tickets/
@@ -377,10 +371,11 @@ ai-customer-support-agent/
 │
 ├── tests/
 │   ├── __init__.py
-│   ├── test_api.py
+│   ├── test_api.py                  ← Phase 10: 20 tests — FastAPI endpoints
+│   ├── test_crud.py                 ← Phase 11: 30 tests — CRUD layer
+│   ├── test_gradio_app.py           ← Phase 12: 22 tests — Gradio UI
 │   ├── test_agent_graph.py
 │   ├── test_classification.py
-│   ├── test_crud.py
 │   ├── test_retrieval.py
 │   ├── test_memory.py
 │   ├── test_tools.py
@@ -458,7 +453,6 @@ ai-customer-support-agent/
 | `main.py` | FastAPI application entry point — lifespan, CORS middleware, router registration |
 | `docs/project_problem_definition.md` | Full Project Requirements Specification (PRS) — problem, objectives, architecture, tech stack |
 | `docs/project_checklist.md` | End-to-end implementation checklist tracking progress across all 21 phases |
-| `app/` | Legacy lifecycle hooks and dependency helpers (pre-Phase 10) |
 | `alembic/` | Alembic database migrations (initial schema + future versions) |
 | `config/` | Settings management (Pydantic BaseSettings) and project-wide constants |
 | `api/` | API route handlers and Pydantic request/response schemas |
@@ -471,7 +465,7 @@ ai-customer-support-agent/
 | `database/` | SQLAlchemy models, CRUD operations, session management, and migrations |
 | `security/` | Authentication, input validation, PII masking, prompt injection guard, rate limiting |
 | `monitoring/` | Structured logging, metrics collection, CloudWatch integration, and dashboards |
-| `frontend/` | Gradio chat UI for local testing and demos |
+| `frontend/` | Gradio demo UI (Phase 12) — `gradio_app.py` submits tickets through the LangGraph agent and renders classification, response, routing, escalation, policies, customer memory, similar cases, and Langfuse trace across 7 tabs; custom CSS for professional styling; run with `python frontend/gradio_app.py` → `http://localhost:7860` |
 | `data/` | Sample tickets, policy documents, customer history, and evaluation cases |
 | `evaluation/` | Evaluation scripts for classification, RAG, memory, agent quality, latency, and cost |
 | `tests/` | Unit and integration tests for all major components |
